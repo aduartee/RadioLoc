@@ -32,11 +32,15 @@ require_once(__DIR__ . '/base.php');
                         <h1>Ultima Movimentação</h1>
                     </th>
                     <th>
+                        <h1>Serial</h1>
+                    </th>
+                    <th>
                         <h1>Ações</h1>
                     </th>
                 </tr>
             </thead>
             <tbody>
+            <?php foreach($equipments as $equipment): ?>
                 <tr>
                     <td>Google</td>
                     <td>9518</td>
@@ -97,6 +101,17 @@ require_once(__DIR__ . '/base.php');
                         <button class="remove-button">Remover</button>
                     </td>
                 </tr>
+                <tr>
+                    <td>GitHub</td>
+                    <td>4623</td>
+                    <td>3486</td>
+                    <td>00:31:52</td>
+                    <td class="actions-cell">
+                        <button class="edit-button">Editar</button>
+                        <button class="remove-button">Remover</button>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
             </tbody>
         </table>
     </div>

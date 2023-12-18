@@ -5,7 +5,11 @@ class Item
     private $itemName;
     private $location;
     private $clientName;
-    private $lastMovement;
+    private $model;
+    private $serialNumber;
+    private $status;
+    private $movementHistory = [];
+    private $additionalNotes;
 
     /**
      * @return int
@@ -60,12 +64,77 @@ class Item
     /**
      * @return string
      */
+    public function getModel()
+    {
+        return $this->model;
+    }
+
+    public function setModel($model)
+    {
+        $this->model = $model;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSerialNumber()
+    {
+        return $this->serialNumber;
+    }
+
+    public function setSerialNumber($serialNumber)
+    {
+        $this->serialNumber = $serialNumber;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMovementHistory()
+    {
+        return $this->movementHistory;
+    }
+
+    // This method will be changed in the future to follow business rules.
+    public function addMovementToHistory($movement, $date)
+    {
+        $movementHistoryEntry = new MovementHistory();
+        $movementHistoryEntry->setEquipmentId($this->getId());
+        $movementHistoryEntry->setMovement($movement);
+        $movementHistoryEntry->setDate($date);
+
+        $this->movementHistory[] = $movementHistoryEntry;
+    }
+
+    // This method will be changed in the future to follow business rules. 
     public function getLastMovement()
     {
-        return $this->lastMovement;
+        $lastMovementIndex = count($this->movementHistory) - 1;
+        return ($lastMovementIndex >= 0) ? $this->movementHistory[$lastMovementIndex] : null;
     }
-    public function setLastMovement($lastMovement)
+
+    /**
+     * @return string
+     */
+    public function getAdditionalNotes()
     {
-        $this->lastMovement = $lastMovement;
+        return $this->additionalNotes;
+    }
+    public function setAdditionalNotes($additionalNotes)
+    {
+        $this->additionalNotes = $$additionalNotes;
     }
 }
