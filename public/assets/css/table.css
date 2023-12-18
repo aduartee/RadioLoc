@@ -1,0 +1,143 @@
+ h1 {
+     font-size: 3em;
+     font-weight: 300;
+     line-height: 1em;
+     text-align: center;
+     color: #4DC3FA;
+ }
+
+ h2 {
+     font-size: 1em;
+     font-weight: 300;
+     text-align: center;
+     display: block;
+     line-height: 1em;
+     padding-bottom: 2em;
+     color: #FB667A;
+ }
+
+ h2 a {
+     font-weight: 700;
+     text-transform: uppercase;
+     color: #FB667A;
+     text-decoration: none;
+ }
+
+ .blue {
+     color: #185875;
+ }
+
+ .yellow {
+     color: #FFF842;
+ }
+
+ .container th h1 {
+     font-weight: bold;
+     font-size: 1.2em;
+     text-align: left;
+     color: var(--dark-color);
+     width: 300%;
+ }
+
+ .container td {
+     font-weight: normal;
+     font-size: 1em;
+     -webkit-box-shadow: 0 2px 2px -2px #0E1119;
+     -moz-box-shadow: 0 2px 2px -2px #0E1119;
+     box-shadow: 0 2px 2px -2px #0E1119;
+ }
+
+ .container {
+     text-align: left;
+     overflow: hidden;
+     width: 100%;
+     border-radius: 20px;
+     max-width: 1700px;
+     margin: 0 auto;
+     display: table;
+     padding: 0 0 8em 0;
+     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+ }
+
+ .container td,
+ .container th {
+     padding-bottom: 2%;
+     padding-top: 2%;
+     padding-left: 2%;
+ }
+
+ .container tr:nth-child(odd) {
+     background-color: #1f1f1f;
+ }
+
+ .container tr:nth-child(even) {
+     background-color: #3a3a3a;
+ }
+
+ .container th {
+     background-color: #080808;
+ }
+
+ .container td:first-child {
+     color: var(--dark-color);
+ }
+
+ .container tr:hover {
+     background-color: #474747;
+     -webkit-box-shadow: 0 6px 6px -6px #0E1119;
+     -moz-box-shadow: 0 6px 6px -6px #0E1119;
+     box-shadow: 0 6px 6px -6px #0E1119;
+ }
+
+ .container td:hover {
+     background-color: #1FA94E;
+     color: #403E10;
+     font-weight: bold;
+     box-shadow: var(--main-color) -1px 1px, var(--main-color) -2px 2px, var(--main-color) -3px 3px, var(--main-color) -4px 4px, var(--main-color) -5px 5px, var(--main-color) -6px 6px;
+     transform: translate3d(6px, -6px, 0);
+     transition-delay: 0s;
+     transition-duration: 0.4s;
+     transition-property: all;
+     transition-timing-function: line;
+ }
+
+ .container .actions-cell {
+     position: relative;
+ }
+
+ .container .actions-cell button {
+     padding: 10px 15px;
+     font-size: 16px;
+     color: #fff;
+     margin-right: 10px;
+     border: none;
+     cursor: pointer;
+     border-radius: 5px;
+     transition: background-color 0.3s ease;
+ }
+
+ .container .actions-cell .edit-button {
+     background-color: var(--success-color);
+ }
+
+ .container .actions-cell .edit-button:hover {
+     background-color: #45a049;
+     box-shadow: 0 6px 6px -6px #0E1119;
+ }
+
+ .container .actions-cell .remove-button {
+     background-color: var(--danger-color);
+ }
+
+ .container .actions-cell .remove-button:hover {
+     background-color: #5f000d;
+     box-shadow: 0 6px 6px -6px #0E1119;
+ }
+
+ @media (max-width: 800px) {
+
+     .container td:nth-child(4),
+     .container th:nth-child(4) {
+         display: none;
+     }
+ }

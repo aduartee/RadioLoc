@@ -1,0 +1,17 @@
+{
+    "name": "arthur/seguranca",
+    "description": "tele-seguranca",
+    "autoload": {
+        "psr-4": {
+            "app\\": "app"
+        },
+        "files": []
+    },
+    "authors": [
+        {
+            "name": "aduartee",
+            "email": "arthurduartealves99@gmail.com"
+        }
+    ],
+    "require": {}
+}
