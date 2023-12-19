@@ -1,2 +1,5 @@
 /vendor/
-conecta.php
+app/database/connect.php
+composer.json
+composer.lock
+error.log

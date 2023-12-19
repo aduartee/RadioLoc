@@ -1,5 +1,11 @@
 <?php
+require_once('../vendor/autoload.php');
 require_once(__DIR__ . '/base.php');
+
+use app\database\ItemModel;
+
+$itemsModel = new ItemModel();
+$items = $itemsModel->getAllItems();
 ?>
 
 <head>
@@ -32,72 +38,42 @@ require_once(__DIR__ . '/base.php');
                         <h1>Ultima Movimentação</h1>
                     </th>
                     <th>
+                        <h1>Serial</h1>
+                    </th>
+                    <th>
+                        <h1>Status</h1>
+                    </th>
+                    <th>
                         <h1>Ações</h1>
                     </th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Google</td>
-                    <td>9518</td>
-                    <td>6369</td>
-                    <td>01:32:50</td>
-                    <td class="actions-cell">
-                        <button class="edit-button">Editar</button>
-                        <button class="remove-button">Remover</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Twitter</td>
-                    <td>7326</td>
-                    <td>10437</td>
-                    <td>00:51:22</td>
-                    <td class="actions-cell">
-                        <button class="edit-button">Editar</button>
-                        <button class="remove-button">Remover</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Amazon</td>
-                    <td>4162</td>
-                    <td>5327</td>
-                    <td>00:24:34</td>
-                    <td class="actions-cell">
-                        <button class="edit-button">Editar</button>
-                        <button class="remove-button">Remover</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>LinkedIn</td>
-                    <td>3654</td>
-                    <td>2961</td>
-                    <td>00:12:10</td>
-                    <td class="actions-cell">
-                        <button class="edit-button">Editar</button>
-                        <button class="remove-button">Remover</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>CodePen</td>
-                    <td>2002</td>
-                    <td>4135</td>
-                    <td>00:46:19</td>
-                    <td class="actions-cell">
-                        <button class="edit-button">Editar</button>
-                        <button class="remove-button">Remover</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>GitHub</td>
-                    <td>4623</td>
-                    <td>3486</td>
-                    <td>00:31:52</td>
-                    <td class="actions-cell">
-                        <button class="edit-button">Editar</button>
-                        <button class="remove-button">Remover</button>
-                    </td>
-                </tr>
+                <?php foreach ($items as $item):
+                ?>
+                    <?php
+                    if (empty($item)) : ?>
+                        <tr>
+                            <td colspan="8">Inserir Registro</td>
+                        </tr>
+                    <?php else : ?>
+                        <tr>
+                            <td><?= $item->getItemName() ?></td>
+                            <td><?= $item->getLocation() ?></td>
+                            <td><?= $item->getClientName() ?></td>
+                            <td><?= $item->getLastMovement() ?></td>
+                            <td><?= $item->getSerialNumber() ?></td>
+                            <td><?= $item->getStatus() ?></td>
+                            <td class="actions-cell">
+                                <button href="#" class="edit-button">Editar</button>
+                                <button href="#" class="remove-button">Remover</button>
+                            </td>
+                        </tr>
+                <?php
+                    endif;
+                endforeach; ?>
             </tbody>
+
         </table>
     </div>
 </section>
