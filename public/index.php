@@ -2,9 +2,10 @@
 require_once('../vendor/autoload.php');
 require_once(__DIR__ . '/base.php');
 
-use app\classes\Item;
+use app\database\ItemModel;
 
-$equipments = new Item();
+$itemsModel = new ItemModel();
+$items = $itemsModel->getAllItems();
 ?>
 
 <head>
@@ -40,25 +41,32 @@ $equipments = new Item();
                         <h1>Serial</h1>
                     </th>
                     <th>
+                        <h1>Status</h1>
+                    </th>
+                    <th>
                         <h1>Ações</h1>
                     </th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($equipments as $equipment) :
-                    if (empty($equipment)) : ?>
+                <?php foreach ($items as $item):
+                ?>
+                    <?php
+                    if (empty($item)) : ?>
                         <tr>
-                            <td colspan="5">Inserir Registro</td>
+                            <td colspan="8">Inserir Registro</td>
                         </tr>
                     <?php else : ?>
                         <tr>
-                            <td><?= $equipment->getItemName() ?></td>
-                            <td><?= $equipment->getLocation() ?></td>
-                            <td><?= $equipment->getItemName() ?></td>
-                            <td>01:<?= $equipment->getItemName() ?>:50</td>
+                            <td><?= $item->getItemName() ?></td>
+                            <td><?= $item->getLocation() ?></td>
+                            <td><?= $item->getClientName() ?></td>
+                            <td><?= $item->getLastMovement() ?></td>
+                            <td><?= $item->getSerialNumber() ?></td>
+                            <td><?= $item->getStatus() ?></td>
                             <td class="actions-cell">
-                                <button class="edit-button">Editar</button>
-                                <button class="remove-button">Remover</button>
+                                <button href="#" class="edit-button">Editar</button>
+                                <button href="#" class="remove-button">Remover</button>
                             </td>
                         </tr>
                 <?php

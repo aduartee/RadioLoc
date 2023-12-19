@@ -5,7 +5,10 @@
         "psr-4": {
             "app\\": "app"
         },
-        "files": []
+        "files": [
+            "app/database/connect.php",
+            "app/database/ItemModel.php"
+        ]
     },    
     "authors": [
         {
