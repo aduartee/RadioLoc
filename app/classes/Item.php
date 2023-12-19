@@ -1,4 +1,5 @@
 <?php
+namespace app\classes;
 class Item
 {
     private $id;
@@ -109,15 +110,15 @@ class Item
     }
 
     // This method will be changed in the future to follow business rules.
-    public function addMovementToHistory($movement, $date)
-    {
-        $movementHistoryEntry = new MovementHistory();
-        $movementHistoryEntry->setEquipmentId($this->getId());
-        $movementHistoryEntry->setMovement($movement);
-        $movementHistoryEntry->setDate($date);
+    // public function addMovementToHistory($movement, $date)
+    // {
+    //     $movementHistoryEntry = new MovementHistory();
+    //     $movementHistoryEntry->setEquipmentId($this->getId());
+    //     $movementHistoryEntry->setMovement($movement);
+    //     $movementHistoryEntry->setDate($date);
 
-        $this->movementHistory[] = $movementHistoryEntry;
-    }
+    //     $this->movementHistory[] = $movementHistoryEntry;
+    // }
 
     // This method will be changed in the future to follow business rules. 
     public function getLastMovement()
@@ -135,6 +136,6 @@ class Item
     }
     public function setAdditionalNotes($additionalNotes)
     {
-        $this->additionalNotes = $$additionalNotes;
+        $this->additionalNotes = $additionalNotes;
     }
 }
