@@ -134,6 +134,33 @@
      box-shadow: 0 6px 6px -6px #0E1119;
  }
 
+ .add-button {
+     padding: 10px 15px;
+     font-size: 17px;
+     color: #fff;
+     margin-right: 10px;
+     margin-bottom: 30px;
+     border: none;
+     cursor: pointer;
+     width: 260px;
+     height: 40px;
+     border-radius: 5px;
+     background-color: var(--main-color);
+     transition: 0.3s ease;
+ }
+
+ .add-button:hover {
+     background-color: #003a0a;
+     box-shadow: 0 6px 6px -6px #0E1119;
+     transform: translate3d(6px, -6px, 0);
+     transition-delay: 0s;
+     transition-duration: 0.4s;
+     transition-property: all;
+     transition-timing-function: line;
+ }
+
+
+
  @media (max-width: 800px) {
 
      .container td:nth-child(4),
