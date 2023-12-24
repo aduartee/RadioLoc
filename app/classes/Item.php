@@ -1,5 +1,7 @@
 <?php
+
 namespace app\classes;
+
 class Item
 {
     private $id;
@@ -10,6 +12,7 @@ class Item
     private $serialNumber;
     private $status;
     private $movementHistory = [];
+    private $lastMovement;
     private $additionalNotes;
 
     /**
@@ -121,10 +124,23 @@ class Item
     // }
 
     // This method will be changed in the future to follow business rules. 
+    // public function getLastMovement()
+    // {
+    //     $lastMovementIndex = count($this->movementHistory) - 1;
+    //     return ($lastMovementIndex >= 0) ? $this->movementHistory[$lastMovementIndex] : null;
+    // }
+
+
+    /**
+     * @return string
+     */
     public function getLastMovement()
     {
-        $lastMovementIndex = count($this->movementHistory) - 1;
-        return ($lastMovementIndex >= 0) ? $this->movementHistory[$lastMovementIndex] : null;
+        return $this->lastMovement;
+    }
+    public function setLastMovement($lastMovement)
+    {
+        $this->lastMovement = $lastMovement;
     }
 
     /**

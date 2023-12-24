@@ -37,9 +37,77 @@ body {
 
 .title-table {
     margin: 0;
-    margin-bottom: 20px;
+    margin-bottom: -30px;
     color: var(--dark-color);
     font-size: 27px;
     font-weight: 700;
     align-self: flex-start;
+}
+
+.container-form {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--contrast-pannel);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    width: 100%;
+    max-width: 1750px;
+    margin: 30px 20px;
+    padding: 35px;
+    height: auto;
+}
+
+.title-form {
+    margin: 0;
+    color: var(--dark-color);
+    font-size: 29px;
+    font-weight: 700;
+    align-self: flex-start;
+}
+
+.form-style {
+    padding: 13px 20px;
+    padding-left: 20px;
+    margin-bottom: 35px;
+    height: 48px;
+    width: 100%;
+    font-weight: 500;
+    border-radius: 4px;
+    font-size: 16px;
+    line-height: 22px;
+    letter-spacing: 0.5px;
+    outline: none;
+    color: #c4c3ca;
+    background-color: #232327;
+    border: none;
+    box-shadow: 0 4px 8px 0 rgba(21, 21, 21, .2);
+}
+
+.label-form {
+    font-size: 20px;
+    margin-left: 5px;
+    font-weight: 600;
+}
+
+.form-button {
+    padding: 10px 15px;
+    font-size: 20px;
+    font-weight: 500;
+    color: #fff;
+    margin-right: 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    background-color: var(--dark-color);
+    width: 10%;
+}
+
+.form-button:hover {
+    transform: translate3d(6px, -6px, 0);
+    transition-delay: 0s;
+    transition-duration: 0.4s;
+    transition-property: all;
+    transition-timing-function: line;
+    background-color: var(--main-color);
 }
