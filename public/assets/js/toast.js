@@ -1,10 +1,7 @@
-function showSuccessToast(message) {
-    Swal.fire({
-        icon: 'success',
-        title: 'Sucesso!',
-        text: message,
-    });
-}
+document.getElementById('form').addEventListener("submit", function (event) {
+    event.preventDefault();
+    processForm(this);
+});
 
 function showErrorToast(message) {
     Swal.fire({
@@ -15,20 +12,30 @@ function showErrorToast(message) {
 }
 
 function processForm(form) {
-    console.log('Formulário enviado!');
-    console.log('Dados do formulário:', form.serialize());
-    console.log(response);
     $.ajax({
         type: 'POST',
-        url: '../../../app/controllers/itemController.php',
-        data: form.serialize(),
+        url: '../app/controllers/itemController.php',
+        data: $(form).serialize(),
         success: function (response) {
-            var result = JSON.parse(response);
+            var result = response;
 
             if (result.status === 'success') {
-                showSuccessToast(result.message);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sucesso!',
+                    cancelButtonText: 'Fechar',
+                    confirmButtonText: 'Ir para pagina de listagem',
+                    showCancelButton: true,
 
-                window.location.href = '../index.php';
+                    text: result.message,
+                }).then(result => {
+                    if (result.isConfirmed) {
+                        Swal.fire("Redirecionando para a pagina principal", "", "success");
+                        setTimeout(function () {
+                            window.location.href = 'index.php';
+                        }, 2000);
+                    }
+                });
             } else {
                 showErrorToast(result.message);
             }

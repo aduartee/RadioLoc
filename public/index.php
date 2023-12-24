@@ -9,7 +9,7 @@ $items = $itemsModel->getAllItems();
 ?>
 
 <head>
-    <title>RadioLoc | Visualizar Equipamentos</title>
+    <title>RadioLoc | Visualizar Equipamentos Ativos</title>
     <script src="assets/js/toast.js"></script>
 </head>
 

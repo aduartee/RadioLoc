@@ -7,13 +7,13 @@ use app\classes\Item;
 $item = new Item;
 
 $titleForm = (empty($item->getId())) ? 'Cadastrar Equipamento' : 'Editar Equipamento';
-
 ?>
 
 <head>
-    <script src="assets/js/toast.js"></script>
+    <!-- JQUERY -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
-<form action="../app/controllers/itemController.php" method="post">
+<form id="form" action="../app/controllers/itemController.php" method="post">
     <div class="container-form">
         <h2 class="title-form"><?= $titleForm ?><i class='bx bx-devices ml-2 text-white' type='solid'></i></h2>
 
@@ -70,3 +70,5 @@ $titleForm = (empty($item->getId())) ? 'Cadastrar Equipamento' : 'Editar Equipam
         <button type="submit" class="form-button">Salvar</button>
     </div>
 </form>
+<!-- Toast Function -->
+<script src="assets/js/toast.js"></script>
