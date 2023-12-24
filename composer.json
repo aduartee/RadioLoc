@@ -6,8 +6,8 @@
             "app\\": "app"
         },
         "files": [
-            "app/database/connect.php",
-            "app/database/ItemModel.php"
+            "app/database/ItemModel.php",
+            "app/database/connect.php"
         ]
     },    
     "authors": [

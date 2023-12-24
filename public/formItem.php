@@ -1,11 +1,21 @@
 <?php
 require_once('../vendor/autoload.php');
 require_once(__DIR__ . '/base.php');
+
+use app\classes\Item;
+
+$item = new Item;
+
+$titleForm = (empty($item->getId())) ? 'Cadastrar Equipamento' : 'Editar Equipamento';
+
 ?>
 
-<form action="" method="post">
+<head>
+    <script src="assets/js/toast.js"></script>
+</head>
+<form action="../app/controllers/itemController.php" method="post">
     <div class="container-form">
-        <h2 class="title-form">Cadastrar Equipamentos<i class='bx bx-devices ml-2 text-white' type='solid'></i></h2>
+        <h2 class="title-form"><?= $titleForm ?><i class='bx bx-devices ml-2 text-white' type='solid'></i></h2>
 
         <div class="row">
             <div class="col-md-6">
@@ -37,22 +47,22 @@ require_once(__DIR__ . '/base.php');
                 </div>
 
                 <div class="d-flex flex-column mb-3">
-                    <label for="location" class="form-label label-form fw-bold mb-2">Status</label>
+                    <label for="status" class="form-label label-form fw-bold mb-2">Status</label>
                     <select name="status" id="status" class="form-style w-75">
                         <option value='1' class="text-success">Ativo</option>
-                        <option value='2' class="text-danger">Inativo</option>
                         <option value='3' class="text-warning">Manutenção</option>
+                        <option value='2' class="text-danger">Inativo</option>
                     </select>
                 </div>
 
                 <div class="d-flex flex-column mb-3">
-                    <label for="serialNumber" class="form-label label-form fw-bold mb-2">Numero de Serial</label>
-                    <input type="text" name="serialNumber" placeholder="Ex: RX00-xwqe-tiew" class="form-style w-75">
+                    <label for="lastMovement" class="form-label label-form fw-bold mb-2">Ultima Movimentação</label>
+                    <input type="text" name="lastMovement" placeholder="Ex: <?= date('d/m/Y') ?>" class="form-style w-75">
                 </div>
-                
+
                 <div class="d-flex flex-column mb-3">
                     <label for="additionalNotes" class="form-label label-form fw-bold mb-2">Observações</label>
-                    <input type="text" name="additionalNotes" placeholder="Ex: Nesse campo você pode descrever informações importantes sobreo aparelho" class="form-style w-75">
+                    <textarea name="additionalNotes" class="form-style w-75" placeholder="Ex: Campo para informações importantes sobre o equipamento" cols="30" rows="10"></textarea>
                 </div>
             </div>
         </div>

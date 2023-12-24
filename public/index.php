@@ -10,6 +10,7 @@ $items = $itemsModel->getAllItems();
 
 <head>
     <title>RadioLoc | Visualizar Equipamentos</title>
+    <script src="assets/js/toast.js"></script>
 </head>
 
 <section class="home-section">
@@ -19,7 +20,7 @@ $items = $itemsModel->getAllItems();
 
     <div class="container-table">
         <h2 class="title-table">Visualizar Equipamentos</h2>
-        <button class="add-button" onclick="window.location.href='formAddItem.php'">
+        <button class="add-button" onclick="window.location.href='formItem.php'">
             <i class='bx bx-plus'></i> Adicionar Equipamento
         </button>
 
@@ -64,7 +65,7 @@ $items = $itemsModel->getAllItems();
                             <td><?= $item->getClientName() ?></td>
                             <td><?= $item->getLastMovement() ?></td>
                             <td><?= $item->getSerialNumber() ?></td>
-                            <td><?= ($item->getStatus() == 1) ? 'Ativo' : 'Inativo'   ?></td>
+                            <td><?= ($item->getStatus() == 1) ? 'Ativo' : (($item->getStatus() == 2) ? 'Inativo' : 'Manutenção') ?></td>
                             <td class="actions-cell">
                                 <button href="#" class="edit-button">Editar</button>
                                 <button href="#" class="remove-button">Remover</button>
