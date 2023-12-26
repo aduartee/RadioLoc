@@ -58,7 +58,10 @@ $items = $itemsModel->getAllItems();
                         <tr>
                             <td colspan="8">Inserir Registro</td>
                         </tr>
-                    <?php else : ?>
+                    <?php else :
+                        $itemId = $item->getId();
+                        $editUrl = "formItem.php?id=$itemId";
+                    ?>
                         <tr>
                             <td><?= $item->getItemName() ?></td>
                             <td><?= $item->getLocation() ?></td>
@@ -67,7 +70,7 @@ $items = $itemsModel->getAllItems();
                             <td><?= $item->getSerialNumber() ?></td>
                             <td><?= ($item->getStatus() == 1) ? 'Ativo' : (($item->getStatus() == 2) ? 'Inativo' : 'Manutenção') ?></td>
                             <td class="actions-cell">
-                                <button href="#" class="edit-button">Editar</button>
+                                <button onclick="window.location.href='<?= $editUrl; ?>'" class="edit-button">Editar</button>
                                 <button href="#" class="remove-button">Remover</button>
                             </td>
                         </tr>
