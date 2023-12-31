@@ -15,10 +15,14 @@ $titleForm = (empty($getById)) ? 'Cadastrar Equipamento' : 'Editar Equipamento';
 <head>
     <!-- JQUERY -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <title>RadioLoc | <?= $titleForm ?></title>
 </head>
 <form id="form" action="../app/controllers/itemController.php" method="post">
     <div class="container-form">
         <h2 class="title-form"><?= $titleForm ?><i class='bx bx-devices ml-2 text-white' type='solid'></i></h2>
+
+        <input type="hidden" name="action" value="<?= (isset($_GET['id']) && $_GET['id'] !== '') ? "edit" : "create" ?>">
+        <input type="hidden" name="id" value="<?= (isset($_GET['id']) && $_GET['id'] !== '') ? $_GET['id'] : null ?>">
 
         <div class="row">
             <div class="col-md-6">
@@ -64,7 +68,7 @@ $titleForm = (empty($getById)) ? 'Cadastrar Equipamento' : 'Editar Equipamento';
                 </div>
 
                 <div class="d-flex flex-column mb-3">
-                    <label for="additionalNotes" class="form-label label-form fw-bold mb-2">Observações</label>
+                    <label for="additionalNotes" clas s="form-label label-form fw-bold mb-2">Observações</label>
                     <textarea name="additionalNotes" value="<?= $getById && !(empty($getById->getAdditionalNotes())) ? $getById->getAdditionalNotes() : '' ?>" class="form-style w-75" placeholder="Ex: Campo para informações importantes sobre o equipamento" cols="30" rows="10"></textarea>
                 </div>
             </div>

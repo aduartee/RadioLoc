@@ -8,6 +8,7 @@ use PDOException;
 use PDO;
 
 $response = ['status' => 'error', 'message' => 'Erro ao processar a solicitação.'];
+$action = $_POST['action'];
 
 try {
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -26,20 +27,47 @@ try {
             return;
         }
 
-        $stmt = $connect->prepare(" INSERT INTO equipment (itemName, location, clientName, model, serialNumber, status, lastMovement, additionalNotes) 
+        if (isset($action) && $action == 'create') {
+            $stmt = $connect->prepare(" INSERT INTO equipment (itemName, location, clientName, model, serialNumber, status, lastMovement, additionalNotes) 
                                             VALUES(:itemName, :location, :clientName, :model, :serialNumber, :status, :lastMovement, :additionalNotes)");
-        $stmt->bindParam(':itemName', $itemName);
-        $stmt->bindParam(':location', $location);
-        $stmt->bindParam(':clientName', $clientName);
-        $stmt->bindParam(':model', $model);
-        $stmt->bindParam(':serialNumber', $serialNumber);
-        $stmt->bindParam(':status', $status);
-        $stmt->bindParam(':lastMovement', $lastMovement);
-        $stmt->bindParam(':additionalNotes', $additionalNotes);
+            $stmt->bindParam(':itemName', $itemName);
+            $stmt->bindParam(':location', $location);
+            $stmt->bindParam(':clientName', $clientName);
+            $stmt->bindParam(':model', $model);
+            $stmt->bindParam(':serialNumber', $serialNumber);
+            $stmt->bindParam(':status', $status);
+            $stmt->bindParam(':lastMovement', $lastMovement);
+            $stmt->bindParam(':additionalNotes', $additionalNotes);
+            $message = 'create';
+            $debug = 'Entrou no create';
+        } else if (isset($action) && $action == 'edit') {
+            $id = $_POST['id'];
+            $stmt = $connect->prepare(" UPDATE equipment 
+                                        SET itemName = :itemName, 
+                                        location = :location,
+                                        clientName = :clientName, 
+                                        model = :model,
+                                        serialNumber = :serialNumber, 
+                                        status = :status,
+                                        lastMovement = :lastMovement,
+                                        additionalNotes = :additionalNotes 
+                                        WHERE id = :id");
 
+            $stmt->bindParam(':itemName', $itemName);
+            $stmt->bindParam(':location', $location);
+            $stmt->bindParam(':clientName', $clientName);
+            $stmt->bindParam(':model', $model);
+            $stmt->bindParam(':serialNumber', $serialNumber);
+            $stmt->bindParam(':status', $status);
+            $stmt->bindParam(':lastMovement', $lastMovement);
+            $stmt->bindParam(':additionalNotes', $additionalNotes);
+            $stmt->bindParam(':id', $id);
+            $message = 'edit';
+            $debug = 'Entrou no edit';
+        }
         if ($stmt->execute()) {
             $response['status'] = 'success';
-            $response['message'] = 'Alterações salvas com sucesso!';
+            $response['message'] = ($message == 'create') ? 'Item criado com sucesso!' : 'Alterações salvas com sucesso!';
         } else {
             $response['status'] = 'error';
             $response['message'] = 'Erro ao salvar as alterações';
@@ -52,4 +80,3 @@ try {
 
 header('Content-Type: application/json');
 echo json_encode($response);
-?>
