@@ -12,7 +12,7 @@ class ItemModel
     {
         try {
             $connect = connect();
-            $query = "SELECT * FROM equipment ORDER BY id DESC";
+            $query = "SELECT * FROM equipment WHERE status = 1 ORDER BY id DESC";
             $stmt = $connect->query($query);
 
             $itemsData = $stmt->fetchAll(PDO::FETCH_ASSOC);

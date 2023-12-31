@@ -111,3 +111,8 @@ body {
     transition-timing-function: line;
     background-color: var(--main-color);
 }
+
+.fade-out {
+    opacity: 0;
+    transition: opacity 2s ease-out;
+}
