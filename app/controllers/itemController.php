@@ -38,8 +38,6 @@ try {
             $stmt->bindParam(':status', $status);
             $stmt->bindParam(':lastMovement', $lastMovement);
             $stmt->bindParam(':additionalNotes', $additionalNotes);
-            $message = 'create';
-            $debug = 'Entrou no create';
         } else if (isset($action) && $action == 'edit') {
             $id = $_POST['id'];
             $stmt = $connect->prepare(" UPDATE equipment 
@@ -62,16 +60,15 @@ try {
             $stmt->bindParam(':lastMovement', $lastMovement);
             $stmt->bindParam(':additionalNotes', $additionalNotes);
             $stmt->bindParam(':id', $id);
-            $message = 'edit';
-            $debug = 'Entrou no edit';
         }
+
         if ($stmt->execute()) {
             $response['status'] = 'success';
             $response['message'] = ($message == 'create') ? 'Item criado com sucesso!' : 'Alterações salvas com sucesso!';
         } else {
             $response['status'] = 'error';
             $response['message'] = 'Erro ao salvar as alterações';
-        }
+        }        
     }
 } catch (PDOException $e) {
     error_log('Error:' . $e->getMessage());

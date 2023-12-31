@@ -70,4 +70,18 @@ class ItemModel
             $e->getMessage();
         }
     }
+
+    public function removeItem($id)
+    {
+        try {
+            $connect = connect();
+            $stmt = $connect->prepare("UPDATE equipment SET status = 2 WHERE id = :id");
+            $stmt->bindParam(":id", $id);
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            $e->getMessage();
+            return false;
+        }
+    }
 }

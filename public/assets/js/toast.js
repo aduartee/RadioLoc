@@ -26,7 +26,6 @@ function processForm(form) {
                     cancelButtonText: 'Voltar',
                     confirmButtonText: 'Ir para pagina de listagem',
                     showCancelButton: true,
-
                     text: result.message,
                 }).then(result => {
                     if (result.isConfirmed) {
