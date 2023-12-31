@@ -3,3 +3,4 @@ app/database/connect.php
 composer.json
 composer.lock
 error.log
+README.md

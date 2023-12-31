@@ -64,7 +64,7 @@ $items = $itemsModel->getAllItems();
                         $itemId = $item->getId();
                         $editUrl = "formItem.php?id=$itemId";
                     ?>
-                        <tr>
+                        <tr data-id="<?= $itemId ?>">
                             <td><?= $item->getItemName() ?></td>
                             <td><?= $item->getLocation() ?></td>
                             <td><?= $item->getClientName() ?></td>
