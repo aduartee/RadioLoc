@@ -23,10 +23,9 @@ function processForm(form) {
                 Swal.fire({
                     icon: 'success',
                     title: 'Sucesso!',
-                    cancelButtonText: 'Fechar',
+                    cancelButtonText: 'Voltar',
                     confirmButtonText: 'Ir para pagina de listagem',
                     showCancelButton: true,
-
                     text: result.message,
                 }).then(result => {
                     if (result.isConfirmed) {
