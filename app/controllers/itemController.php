@@ -18,7 +18,8 @@ try {
         $model = $_POST['model'];
         $serialNumber = $_POST['serialNumber'];
         $status = $_POST['status'];
-        $lastMovement = $_POST['lastMovement'];
+        // Convert date to SQL FORMAT
+        $lastMovement = date('Y-m-d', strtotime(str_replace('/', '-', $_POST['lastMovement'])));
         $additionalNotes = $_POST['additionalNotes'];
         $connect = connect();
 
@@ -64,7 +65,7 @@ try {
 
         if ($stmt->execute()) {
             $response['status'] = 'success';
-            $response['message'] = ($message == 'create') ? 'Item criado com sucesso!' : 'Alterações salvas com sucesso!';
+            $response['message'] = ($action == 'create') ? 'Item criado com sucesso!' : 'Alterações salvas com sucesso!';
         } else {
             $response['status'] = 'error';
             $response['message'] = 'Erro ao salvar as alterações';

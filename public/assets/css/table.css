@@ -135,11 +135,11 @@
  }
 
  .add-button {
-     padding: 10px 15px;
+     padding: 15px 15px 35px;
      font-size: 17px;
      color: #fff;
-     margin-right: 10px;
-     margin-bottom: 30px;
+     margin: 0 10px 0 59%;
+     box-shadow: 0 6px 6px -6px #0E1119;
      border: none;
      cursor: pointer;
      width: 260px;
