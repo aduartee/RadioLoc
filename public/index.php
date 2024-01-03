@@ -21,10 +21,12 @@ $items = $itemsModel->getAllItems();
     </div>
 
     <div class="container-table">
-        <h2 class="title-table">Visualizar Equipamentos</h2>
-        <button class="add-button" onclick="window.location.href='formItem.php'">
-            <i class='bx bx-plus'></i> Adicionar Equipamento
-        </button>
+        <div class="d-flex flex-row">
+            <h2 class="title-table">Visualizar Equipamentos</h2>
+            <button class="add-button" onclick="window.location.href='formItem.php'">
+                <i class='bx bx-plus'></i> Adicionar Equipamento
+            </button>
+        </div>
 
         <table class="container">
             <thead>
