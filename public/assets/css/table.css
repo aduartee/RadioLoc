@@ -159,8 +159,6 @@
      transition-timing-function: line;
  }
 
-
-
  @media (max-width: 800px) {
 
      .container td:nth-child(4),

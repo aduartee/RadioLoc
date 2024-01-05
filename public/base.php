@@ -34,7 +34,7 @@
         <span class="tooltip">Página inicial</span>
       </li>
       <li>
-        <a href="#">
+        <a href="customers.php">
           <i class='bx bx-user'></i>
           <span class="links_name">Clientes</span>
         </a>
