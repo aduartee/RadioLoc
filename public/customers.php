@@ -1,6 +1,11 @@
 <?php
 require_once('../vendor/autoload.php');
 require_once(__DIR__ . '/base.php');
+
+use app\database\CustomerModel;
+
+$customerModel = new CustomerModel;
+$customers = $customerModel->getAllCustomers();
 ?>
 
 <head>
@@ -18,7 +23,7 @@ require_once(__DIR__ . '/base.php');
     <div class="container-table">
         <div class="d-flex flex-row">
             <h2 class="title-table">Visualizar Clientes</h2>
-            <button class="add-button" onclick="window.location.href='formItem.php'">
+            <button class="add-button" onclick="window.location.href='formCustomer.php'">
                 <i class='bx bx-plus'></i> Adicionar Cliente
             </button>
         </div>
@@ -27,7 +32,7 @@ require_once(__DIR__ . '/base.php');
             <thead>
                 <tr>
                     <th>
-                        <h1>Nome</h1>
+                        <h1>Nome do Cliente</h1>
                     </th>
                     <th>
                         <h1>Numero de Equipamentos</h1>
@@ -41,23 +46,22 @@ require_once(__DIR__ . '/base.php');
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($items as $item) :
+                <?php foreach ($customers as $customer) :
                 ?>
                     <?php
-                    if (empty($item)) : ?>
+                    if (empty($customer)) : ?>
                         <tr>
-                            <td colspan="8">Inserir Registro</td>
+                            <td colspan="8">Nenhum Registro</td>
                         </tr>
                     <?php else :
-                        $editUrl = "formItem.php?id=''";
+                        $customerId = $customer->getId();
+                        $editUrl = "formCustomer.php?id=$customerId";
                     ?>
-                        <tr data-id="<?= $itemId ?>">
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                        <tr data-id="<?= $customerId ?>">
+                            <td><?= $customer->getCustomerName(); ?></td>
+                            <td><?= $customer->getTotalEquipment(); ?></td>
+                            <td><?= $customer->getAddress(); ?></td>
+                            <td><?= $customer->getLastMovement(); ?></td>
                             <td class="actions-cell">
                                 <button onclick="window.location.href='<?= $editUrl; ?>'" class="edit-button">Editar</button>
                                 <button class="remove-button" onclick="">Remover</button>

@@ -5,8 +5,8 @@ namespace app\classes;
 class Customer
 {
     private $id;
-    private $clientName;
-    private $equipamentNumber;
+    private $customerName;
+    private $totalEquipment;
     private $address;
     private $lastMovement;
 
@@ -26,27 +26,27 @@ class Customer
     /**
      * @return string
      */
-    public function getclientName()
+    public function getCustomerName()
     {
-        return $this->clientName;
+        return $this->customerName;
     }
 
-    public function setClientName($clientName)
+    public function setCustomerName($customerName)
     {
-        $this->clientName = $clientName;
+        $this->customerName = $customerName;
     }
 
     /**
      * @return int
      */
-    public function getEquipamentNumber()
+    public function getTotalEquipment()
     {
-        return $this->equipamentNumber;
+        return $this->totalEquipment;
     }
 
-    public function setEquipamentNumber($equipamentNumber)
+    public function setTotalEquipment($totalEquipment)
     {
-        $this->equipamentNumber = $equipamentNumber;
+        $this->totalEquipment = $totalEquipment;
     }
 
     /**
