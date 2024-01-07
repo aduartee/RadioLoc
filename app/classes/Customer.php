@@ -2,7 +2,7 @@
 
 namespace app\classes;
 
-class Customer
+class Customer 
 {
     private $id;
     private $customerName;

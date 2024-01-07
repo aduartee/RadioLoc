@@ -2,13 +2,11 @@
 require_once('../vendor/autoload.php');
 require_once(__DIR__ . '/base.php');
 
-use app\classes\Item;
-use app\database\ItemModel;
+use app\database\CustomerModel;
 
-$item = new Item;
-$itemModel = new ItemModel;
-$getById = isset($_GET['id']) && $_GET['id'] !== '' ? $itemModel->getById($_GET['id']) : null;
-$titleForm = (empty($getById)) ? 'Cadastrar Clientes' : 'Editar Clientes';
+$customerModel = new CustomerModel;
+$getCustomerById = (isset($_GET['id']) && $_GET['id'] !== '') ? $customerModel->getCustomerById($_GET['id']) : null;
+$titleForm = (empty($getCustomerById)) ? 'Cadastrar Clientes' : 'Editar Clientes';
 ?>
 
 <head>
@@ -20,22 +18,22 @@ $titleForm = (empty($getById)) ? 'Cadastrar Clientes' : 'Editar Clientes';
     <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
 </head>
 
-<form id="form" action="../app/controllers/itemController.php" method="post">
+<form id="form" action="../app/controllers/customerController.php" method="post" onsubmit="return processForm(this, '../app/controllers/customerController.php', 'customers.php')">
     <div class="container-form">
-        <h2 class="title-form"><?= $titleForm ?><i class='bx bx-devices ml-2 text-white' type='solid'></i></h2>
+        <h2 class="title-form"><?= $titleForm ?><i class='bx bx bxs-user ml-2 text-white' type='solid'></i></h2>
 
         <input type="hidden" name="action" value="<?= (isset($_GET['id']) && $_GET['id'] !== '') ? "edit" : "create" ?>">
         <input type="hidden" name="id" value="<?= (isset($_GET['id']) && $_GET['id'] !== '') ? $_GET['id'] : null ?>">
 
         <div class="col-md-6">
             <div class="d-flex flex-column mb-3">
-                <label for="itemName" class="form-label label-form fw-bold mb-2">Nome do Cliente</label>
-                <input type="text" name="itemName" value="<?= $getById && !(empty($getById->getItemName())) ? $getById->getItemName() : '' ?>" placeholder="Ex: Cliente Z" class="form-style">
+                <label for="customerName" class="form-label label-form fw-bold mb-2">Nome do Cliente</label>
+                <input type="text" name="customerName" value="<?= $getCustomerById && !(empty($getCustomerById->getCustomerName())) ? $getCustomerById->getCustomerName() : '' ?>" placeholder="Ex: Cliente Exemplo" class="form-style">
             </div>
 
             <div class="d-flex flex-column mb-3">
-                <label for="clientName" class="form-label label-form fw-bold mb-2">Endereço</label>
-                <input type="text" name="clientName" value="<?= $getById && !(empty($getById->getClientName())) ? $getById->getClientName() : '' ?>" placeholder="Ex: Rua Coronel Aldo" class="form-style">
+                <label for="address" class="form-label label-form fw-bold mb-2">Endereço</label>
+                <input type="text" name="address" value="<?= $getCustomerById && !(empty($getCustomerById->getAddress())) ? $getCustomerById->getAddress() : '' ?>" placeholder="Ex: Rua Coronel Aldo" class="form-style">
             </div>
         </div>
 
