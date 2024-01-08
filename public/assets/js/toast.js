@@ -1,8 +1,3 @@
-document.getElementById('form').addEventListener("submit", function (event) {
-    event.preventDefault();
-    processForm(this);
-});
-
 function showErrorToast(message) {
     Swal.fire({
         icon: 'error',
@@ -11,37 +6,38 @@ function showErrorToast(message) {
     });
 }
 
-function processForm(form) {
+function processForm(form, itemControllerUrl, successRedirect) {
+    event.preventDefault();
     $.ajax({
-        type: 'POST',
-        url: '../app/controllers/itemController.php',
+        type: "POST",
+        url: itemControllerUrl,
         data: $(form).serialize(),
         success: function (response) {
-            var result = response;
-
-            if (result.status === 'success') {
+            if (response.status === 'success') {
                 Swal.fire({
                     icon: 'success',
                     title: 'Sucesso!',
                     cancelButtonText: 'Voltar',
                     confirmButtonText: 'Ir para pagina de listagem',
                     showCancelButton: true,
-                    text: result.message,
-                }).then(result => {
-                    if (result.isConfirmed) {
-                        Swal.fire("Redirecionando para a pagina principal", "", "success");
+                    text: response.message,
+                }).then(response => {
+                    if (response.isConfirmed) {
+                        Swal.fire("Redirecionando para a pagina de listagem", "", "success");
                         setTimeout(function () {
-                            window.location.href = 'index.php';
+                            window.location.href = successRedirect;
                         }, 2000);
                     }
                 });
             } else {
-                showErrorToast(result.message);
+                showErrorToast(response.message);
             }
         },
-        error: function () {
+        error: function (response) {
+            console.log(response);
             showErrorToast('Erro interno no servidor');
         }
     });
 }
+
 

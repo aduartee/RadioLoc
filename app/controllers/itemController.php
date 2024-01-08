@@ -25,7 +25,7 @@ try {
 
         if (!($connect)) {
             error_log('Erro: Falha na conexão com o banco de dados.');
-            return;
+            exit();
         }
 
         if (isset($action) && $action == 'create') {
@@ -69,7 +69,7 @@ try {
         } else {
             $response['status'] = 'error';
             $response['message'] = 'Erro ao salvar as alterações';
-        }        
+        }
     }
 } catch (PDOException $e) {
     error_log('Error:' . $e->getMessage());

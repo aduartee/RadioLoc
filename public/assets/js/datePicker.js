@@ -13,8 +13,4 @@ document.addEventListener('DOMContentLoaded', function () {
             },
         }
     });
-
-    $('#data').on('change', function(){
-        console.log($('#data').val());
-    });
 });
