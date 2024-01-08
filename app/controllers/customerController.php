@@ -7,29 +7,29 @@ require_once '../../vendor/autoload.php';
 use app\database\CustomerModel;
 use PDOException;
 
-$response = ['status' => 'error', 'message' => 'Erro ao processar a solicitação.'];
 
 try {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $response = ['status' => 'error', 'message' => 'Erro ao processar a solicitação.'];
         $connect = connect();
         if (!$connect) {
-            error_log('Erro: Falha na conexão com o banco de dados.');
+            $response['message'] = 'Erro: Falha na conexão com o banco de dados.';
             exit();
         }
 
+        $customerModel = new CustomerModel();
         $id = $_POST['id'];
         $customerName = $_POST['customerName'];
         $address = $_POST['address'];
         $action = $_POST['action'];
-        $customerModel = new CustomerModel();
 
         if (isset($action)) {
-            if ($action === 'create' && !isset($id)) {
+            if ($action === 'create' && empty($id)) {
                 if ($customerModel->createCustomer($customerName, $address)) {
                     $response['status'] = 'success';
                     $response['message'] = 'Cliente criado com sucesso!';
                 }
-            } elseif ($action === 'edit' && isset($id)) {
+            } elseif ($action === 'edit' && $id !== null) {
                 if ($customerModel->editCustomer($id, $customerName, $address)) {
                     $response['status'] = 'success';
                     $response['message'] = 'Cliente alterado com sucesso!';
@@ -37,8 +37,6 @@ try {
             } else {
                 $response['status'] = 'error';
                 $response['message'] = 'Erro ao realizar ação';
-                error_log(print_r($_POST, true)); 
-
             }
         }
     }

@@ -1,8 +1,3 @@
-document.getElementById('form').addEventListener("submit", function (event) {
-    event.preventDefault();
-    processForm(this);
-});
-
 function showErrorToast(message) {
     Swal.fire({
         icon: 'error',
@@ -12,13 +7,12 @@ function showErrorToast(message) {
 }
 
 function processForm(form, itemControllerUrl, successRedirect) {
-    console.log(form);
+    event.preventDefault();
     $.ajax({
-        type: 'POST',
+        type: "POST",
         url: itemControllerUrl,
         data: $(form).serialize(),
         success: function (response) {
-
             if (response.status === 'success') {
                 Swal.fire({
                     icon: 'success',
@@ -26,7 +20,7 @@ function processForm(form, itemControllerUrl, successRedirect) {
                     cancelButtonText: 'Voltar',
                     confirmButtonText: 'Ir para pagina de listagem',
                     showCancelButton: true,
-                    text: result.message,
+                    text: response.message,
                 }).then(response => {
                     if (response.isConfirmed) {
                         Swal.fire("Redirecionando para a pagina de listagem", "", "success");
@@ -39,9 +33,11 @@ function processForm(form, itemControllerUrl, successRedirect) {
                 showErrorToast(response.message);
             }
         },
-        error: function () {
+        error: function (response) {
+            console.log(response);
             showErrorToast('Erro interno no servidor');
         }
     });
 }
+
 

@@ -23,7 +23,8 @@ $titleForm = (empty($getCustomerById)) ? 'Cadastrar Clientes' : 'Editar Clientes
         <h2 class="title-form"><?= $titleForm ?><i class='bx bx bxs-user ml-2 text-white' type='solid'></i></h2>
 
         <input type="hidden" name="action" value="<?= (isset($_GET['id']) && $_GET['id'] !== '') ? "edit" : "create" ?>">
-        <input type="hidden" name="id" value="<?= (isset($_GET['id']) && $_GET['id'] !== '') ? $_GET['id'] : null ?>">
+        <input type="hidden" name="id" value="<?= (isset($_GET['id']) && $_GET['id'] !== '') ? $_GET['id'] : '' ?>">
+
 
         <div class="col-md-6">
             <div class="d-flex flex-column mb-3">

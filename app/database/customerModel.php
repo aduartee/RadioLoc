@@ -24,7 +24,8 @@ class CustomerModel
                    LEFT JOIN 
                     equipment AS e ON c.itemID = e.id
                    GROUP BY 
-                    c.id, c.customerName, c.equipamentNumber, c.address";
+                    c.id, c.customerName, c.equipamentNumber, c.address
+                   ORDER BY c.id DESC";
             $stmt = $connect->query($query);
 
             $customerData = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -32,6 +33,7 @@ class CustomerModel
 
             foreach ($customerData as $data) {
                 $customer = new Customer;
+                $customer->setId($data['customer_id']);
                 $customer->setCustomerName($data['customerName']);
                 $customer->setTotalEquipment($data['total_items']);
                 $customer->setAddress($data['address']);
@@ -74,18 +76,19 @@ class CustomerModel
     {
         try {
             $connect = connect();
-            if (!($connect)) {
+            if (!$connect) {
                 error_log('Erro: Falha na conexão com o banco de dados.');
                 exit();
             }
 
-            $stmt = $connect->prepare(" INSERT INTO customer(customerName, address) 
-                                         VALUES(:customerName, :address)");
+            $stmt = $connect->prepare("INSERT INTO customer(customerName, address) VALUES(:customerName, :address)");
             $stmt->bindParam(':customerName', $customerName);
             $stmt->bindParam(':address', $address);
             $stmt->execute();
+            return true;
         } catch (PDOException $e) {
             error_log('Erro durante a execução da declaração preparada: ' . $e->getMessage());
+            return false;
         }
     }
 
@@ -106,8 +109,10 @@ class CustomerModel
             $stmt->bindParam(':address', $address);
             $stmt->bindParam(':id', $id);
             $stmt->execute();
+            return true;
         } catch (PDOException $e) {
             error_log('Erro durante a execução da declaração preparada: ' . $e->getMessage());
+            return false ;
         }
     }
 }

@@ -43,6 +43,9 @@ $customers = $customerModel->getAllCustomers();
                     <th>
                         <h1>Ultima Movimentação</h1>
                     </th>
+                    <th>
+                        <h1>Ações</h1>
+                    </th>
                 </tr>
             </thead>
             <tbody>
