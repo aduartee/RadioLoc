@@ -26,7 +26,7 @@ function processForm(form, itemControllerUrl, successRedirect) {
                         Swal.fire("Redirecionando para a pagina de listagem", "", "success");
                         setTimeout(function () {
                             window.location.href = successRedirect;
-                        }, 2000);
+                        }, 1000);
                     }
                 });
             } else {

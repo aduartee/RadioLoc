@@ -19,7 +19,8 @@ $titleForm = (empty($getById)) ? 'Cadastrar Equipamento' : 'Editar Equipamento';
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
 </head>
-<form id="form" action="../app/controllers/itemController.php" method="post">
+
+<form id="form" action="../app/controllers/itemController.php" method="post" onsubmit="return processForm(this, '../app/controllers/itemController.php', 'index.php')">
     <div class="container-form">
         <h2 class="title-form"><?= $titleForm ?><i class='bx bx-devices ml-2 text-white' type='solid'></i></h2>
 
