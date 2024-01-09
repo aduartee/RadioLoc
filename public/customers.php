@@ -11,7 +11,7 @@ $customers = $customerModel->getAllCustomers();
 <head>
     <title>RadioLoc | Visualizar Clientes</title>
     <script src="assets/js/toast.js"></script>
-    <script src="assets/js/removeItem.js"></script>
+    <script src="assets/js/remove.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
@@ -67,7 +67,7 @@ $customers = $customerModel->getAllCustomers();
                             <td><?= $customer->getLastMovement(); ?></td>
                             <td class="actions-cell">
                                 <button onclick="window.location.href='<?= $editUrl; ?>'" class="edit-button">Editar</button>
-                                <button class="remove-button" onclick="">Remover</button>
+                                <button class="remove-button" onclick="remove(<?= $customer->getId(); ?>, '../app/controllers/removeCustomerController.php', 'cliente')">Remover</button>
                             </td>
                         </tr>
                 <?php
