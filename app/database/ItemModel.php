@@ -71,6 +71,57 @@ class ItemModel
         }
     }
 
+    public function createItem($itemName, $location, $clientName, $model, $serialNumber, $status, $lastMovement, $additionalNotes)
+    {
+        try {
+            $connect = connect();
+            $stmt = $connect->prepare(" INSERT INTO equipment (itemName, location, clientName, model, serialNumber, status, lastMovement, additionalNotes) 
+            VALUES(:itemName, :location, :clientName, :model, :serialNumber, :status, :lastMovement, :additionalNotes)");
+            $stmt->bindParam(':itemName', $itemName);
+            $stmt->bindParam(':location', $location);
+            $stmt->bindParam(':clientName', $clientName);
+            $stmt->bindParam(':model', $model);
+            $stmt->bindParam(':serialNumber', $serialNumber);
+            $stmt->bindParam(':status', $status);
+            $stmt->bindParam(':lastMovement', $lastMovement);
+            $stmt->bindParam(':additionalNotes', $additionalNotes);
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            $e->getMessage();
+        }
+    }
+
+    public function editItem($itemName, $location, $clientName,  $model, $serialNumber, $status, $lastMovement, $additionalNotes, $id)
+    {
+        try {
+            $connect = connect();
+            $stmt = $connect->prepare(" UPDATE equipment 
+                                        SET itemName = :itemName, 
+                                        location = :location,
+                                        clientName = :clientName, 
+                                        model = :model,
+                                        serialNumber = :serialNumber, 
+                                        status = :status,
+                                        lastMovement = :lastMovement,
+                                        additionalNotes = :additionalNotes 
+                                        WHERE id = :id");
+            $stmt->bindParam(':itemName', $itemName);
+            $stmt->bindParam(':location', $location);
+            $stmt->bindParam(':clientName', $clientName);
+            $stmt->bindParam(':model', $model);
+            $stmt->bindParam(':serialNumber', $serialNumber);
+            $stmt->bindParam(':status', $status);
+            $stmt->bindParam(':lastMovement', $lastMovement);
+            $stmt->bindParam(':additionalNotes', $additionalNotes);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            $e->getMessage();
+        }
+    }
+
     public function removeItem($id)
     {
         try {
