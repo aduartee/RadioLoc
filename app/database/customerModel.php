@@ -13,19 +13,22 @@ class CustomerModel
         try {
             $connect = connect();
             $query = " SELECT 
-                    c.id AS customer_id,
-                    c.customerName,
-                    c.equipamentNumber,
-                    c.address,
-                    MAX(e.lastMovement) AS lastMovement,
-                    COUNT(e.id) AS total_items
-                   FROM 
-                    customer AS c
-                   LEFT JOIN 
-                    equipment AS e ON c.itemID = e.id
-                   GROUP BY 
-                    c.id, c.customerName, c.equipamentNumber, c.address
-                   ORDER BY c.id DESC";
+                        c.id AS customer_id,
+                        c.customerName,
+                        c.status,
+                        c.equipamentNumber,
+                        c.address,
+                        MAX(e.lastMovement) AS lastMovement,
+                        COUNT(e.id) AS total_items
+                       FROM 
+                        customer AS c
+                       LEFT JOIN 
+                        equipment AS e ON c.itemID = e.id
+                       WHERE 
+                        c.status = 1
+                       GROUP BY 
+                        c.id, c.customerName, c.equipamentNumber, c.address
+                       ORDER BY c.id DESC";
             $stmt = $connect->query($query);
 
             $customerData = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -112,7 +115,28 @@ class CustomerModel
             return true;
         } catch (PDOException $e) {
             error_log('Erro durante a execução da declaração preparada: ' . $e->getMessage());
-            return false ;
+            return false;
+        }
+    }
+
+    public function removeCustomer($id)
+    {
+        try {
+            $connect = connect();
+            if (!($connect)) {
+                error_log('Erro: Falha na conexão com o banco de dados.');
+                exit();
+            }
+
+            $stmt = $connect->prepare(" UPDATE customer 
+                                        SET status = 2
+                                        WHERE id = :id");
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            error_log('Erro durante a execução da declaração preparada: ' . $e->getMessage());
+            return false;
         }
     }
 }

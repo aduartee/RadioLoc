@@ -1,7 +1,7 @@
-function removeItem(id_item) {
+function remove(id, url, text) {
     Swal.fire({
         title: 'Confirmação',
-        text: 'Tem certeza de que deseja remover este item?',
+        text: 'Tem certeza de que deseja remover este ' + text + '?',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -12,16 +12,16 @@ function removeItem(id_item) {
         if (result.isConfirmed) {
             $.ajax({
                 type: 'POST',
-                url: '../app/controllers/removeItemController.php',
+                url: url,
                 data: {
-                    id: id_item
+                    id: id
                 },
                 success: function (response) {
                     if (response.status == 'success') {
-                        $(`tr[data-id="${id_item}"]`).addClass('fade-out');
+                        $(`tr[data-id="${id}"]`).addClass('fade-out');
 
                         setTimeout(function () {
-                            $(`tr[data-id="${id_item}"]`).remove();
+                            $(`tr[data-id="${id}"]`).remove();
                         }, 1000);
 
                         Swal.fire({
