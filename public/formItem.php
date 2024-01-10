@@ -40,11 +40,20 @@ $titleForm = (empty($getById)) ? 'Cadastrar Equipamento' : 'Editar Equipamento';
                 </div>
 
                 <div class="d-flex flex-column mb-3">
-                    <label for="clientName" class="form-label label-form fw-bold mb-2">Nome do Cliente</label>
-                    <input type="text" name="clientName" value="<?= $getById && !(empty($getById->getClientName())) ? $getById->getClientName() : '' ?>" placeholder="Ex: João Ribas" class="form-style">
+                    <label for="customerID" class="form-label label-form fw-bold mb-2">Nome do Cliente</label>
+                    <select class="form-style" name="customerID">
+                        <?php
+                        $customers = $itemModel->getCustomerName();
+                        foreach ($customers as $customer) {
+                        ?>
+                            <option value=" <?= $customer['id'] ?>">
+                                <?= $customer['customerName'] ?></option>
+                        <?php }
+                        ?>
+                    </select>
                 </div>
 
-                <div class="d-flex flex-column">
+                <div class=" d-flex flex-column">
                     <label for="model" class="form-label label-form fw-bold mb-2">Modelo do Equipamento</label>
                     <input type="text" name="model" value="<?= $getById && !(empty($getById->getModel())) ? $getById->getModel() : '' ?>" placeholder="Ex: RC 3002 S2" class="form-style">
                 </div>

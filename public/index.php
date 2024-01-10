@@ -69,7 +69,7 @@ $items = $itemsModel->getAllItems();
                         <tr data-id="<?= $itemId ?>">
                             <td><?= $item->getItemName() ?></td>
                             <td><?= $item->getLocation() ?></td>
-                            <td><?= $item->getClientName() ?></td>
+                            <td><?= $item->getCustomerName() ?></td>
                             <td><?= $item->getLastMovement() ?></td>
                             <td><?= $item->getSerialNumber() ?></td>
                             <td><?= ($item->getStatus() == 1) ? 'Ativo' : (($item->getStatus() == 2) ? 'Inativo' : 'Manutenção') ?></td>

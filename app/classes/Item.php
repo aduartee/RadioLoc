@@ -7,7 +7,8 @@ class Item
     private $id;
     private $itemName;
     private $location;
-    private $clientName;
+    private $customerName;
+    private $customerID;
     private $model;
     private $serialNumber;
     private $status;
@@ -56,13 +57,25 @@ class Item
     /**
      * @return string
      */
-    public function getClientName()
+    public function getCustomerName()
     {
-        return $this->clientName;
+        return $this->customerName;
     }
-    public function setClientName($clientName)
+    public function setCustomerName($customerName)
     {
-        $this->clientName = $clientName;
+        $this->customerName = $customerName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCustomerID()
+    {
+        return $this->customerID;
+    }
+    public function setCustomerID($customerID)
+    {
+        $this->customerID = $customerID;
     }
 
     /**
