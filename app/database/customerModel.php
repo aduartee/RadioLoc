@@ -19,13 +19,14 @@ class CustomerModel
                         c.equipamentNumber,
                         c.address,
                         MAX(e.lastMovement) AS lastMovement,
-                        COUNT(e.id) AS total_items
+                        COUNT(e.customerID) AS total_items
                        FROM 
                         customer AS c
                        LEFT JOIN 
-                        equipment AS e ON c.itemID = e.id
+                        equipment AS e ON c.id = e.customerID
                        WHERE 
-                        c.status = 1
+                        c.status = 1 AND
+                        e.status = 1
                        GROUP BY 
                         c.id, c.customerName, c.equipamentNumber, c.address
                        ORDER BY c.id DESC";
@@ -74,6 +75,7 @@ class CustomerModel
             error_log('Erro durante a execução da declaração preparada: ' . $e->getMessage());
         }
     }
+
 
     public function createCustomer($customerName, $address)
     {

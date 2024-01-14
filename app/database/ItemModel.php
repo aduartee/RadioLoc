@@ -32,6 +32,7 @@ class ItemModel
                 $item->setLocation($data['location']);
                 $item->setCustomerName($data['customerName']);
                 $item->setCustomerID($data['customerID']);
+                $item->setLastMovement($data['lastMovement']);
                 $item->setModel($data['model']);
                 $item->setSerialNumber($data['serialNumber']);
                 $item->setStatus($data['status']);
@@ -79,7 +80,50 @@ class ItemModel
                 return null;
             }
         } catch (PDOException $e) {
-            $e->getMessage();
+            error_log('Erro durante a execução da declaração preparada: ' . $e->getMessage());
+        }
+    }
+
+    public function getItemByCustomer($id)
+    {
+        try {
+            if (isset($id) && $id > 0) {
+                $connect = connect();
+                $stmt = $connect->prepare(" SELECT
+                                            *
+                                           FROM
+                                            equipment AS e
+                                           WHERE
+                                            e.customerID = $id
+                                            AND e.status = 1
+                                            AND status = 1
+                                           GROUP BY
+                                            e.id
+                                           ORDER BY
+                                            MAX(e.lastMovement);");
+                $stmt->execute();
+                $itemData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                $items = [];
+
+                foreach ($itemData as $data) {
+                    $item = new Item;
+                    $item->setId($data['id']);
+                    $item->setItemName($data['itemName']);
+                    $item->setLocation($data['location']);
+                    $item->setCustomerID($data['customerID']);
+                    $item->setModel($data['model']);
+                    $item->setSerialNumber($data['serialNumber']);
+                    $item->setStatus($data['status']);
+                    $item->setAdditionalNotes($data['additionalNotes']);
+                    $item->setLastMovement($data['lastMovement']);
+                    $items[] = $item;
+                }
+                return $items;
+            } else {
+                return null;
+            }
+        } catch (PDOException $e) {
+            error_log('Erro durante a execução da declaração preparada: ' . $e->getMessage());
         }
     }
 

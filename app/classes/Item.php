@@ -2,6 +2,8 @@
 
 namespace app\classes;
 
+use app\Helpers\DataHelper;
+
 class Item
 {
     private $id;
@@ -149,7 +151,11 @@ class Item
      */
     public function getLastMovement()
     {
-        return $this->lastMovement;
+        if ($this->lastMovement != null) {
+            $helperDate = new DataHelper;
+            return $helperDate->formatToBrazil($this->lastMovement);
+        }
+        return null;
     }
     public function setLastMovement($lastMovement)
     {

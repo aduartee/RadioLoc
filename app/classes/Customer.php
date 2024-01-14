@@ -2,7 +2,9 @@
 
 namespace app\classes;
 
-class Customer 
+use app\Helpers\DataHelper;
+
+class Customer
 {
     private $id;
     private $customerName;
@@ -67,7 +69,12 @@ class Customer
      */
     public function getLastMovement()
     {
-        return $this->lastMovement;
+        if ($this->lastMovement != null) {
+            $helper = new DataHelper;
+            return $helper->formatToBrazil($this->lastMovement);
+        }
+
+        return null;
     }
 
     public function setLastMovement($lastMovement)

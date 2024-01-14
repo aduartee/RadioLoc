@@ -2,10 +2,14 @@
 require_once('../vendor/autoload.php');
 require_once(__DIR__ . '/base.php');
 
+use app\database\ItemModel;
 use app\database\CustomerModel;
 
-$customerModel = new CustomerModel;
-$customers = $customerModel->getAllCustomers();
+$customer = new CustomerModel;
+$itemModel = new ItemModel;
+$id = (isset($_GET['id']) && $_GET['id'] > 0) ? $_GET['id'] : null;
+$customerId = $customer->getCustomerById($id);
+$itemData = $itemModel->getItemByCustomer($id);
 ?>
 
 <head>
@@ -18,14 +22,14 @@ $customers = $customerModel->getAllCustomers();
 
 <section class="home-section">
     <div class="container-search">
-        <h2 class="search-text">Buscar Clientes</h2>
+        <h2 class="search-text">Buscar Item</h2>
     </div>
 
     <div class="container-table">
         <div class="d-flex flex-row">
-            <h2 class="title-table">Visualizar Clientes</h2>
+            <h2 class="title-table">Cliente: <?= $customerId->getCustomerName(); ?> </h2>
             <button class="add-button" onclick="window.location.href='formCustomer.php'">
-                <i class='bx bx-plus'></i> Adicionar Cliente
+                <i class='bx bx-plus'></i>Adicionar Cliente
             </button>
         </div>
 
@@ -33,16 +37,22 @@ $customers = $customerModel->getAllCustomers();
             <thead>
                 <tr>
                     <th>
+                        <h1>Equipamento</h1>
+                    </th>
+                    <th>
+                        <h1>Localização</h1>
+                    </th>
+                    <th>
                         <h1>Nome do Cliente</h1>
                     </th>
                     <th>
-                        <h1>Numero Total de Equipamentos</h1>
+                        <h1>Ultima Movimentação</h1>
                     </th>
                     <th>
-                        <h1>Endereço</h1>
+                        <h1>Serial</h1>
                     </th>
                     <th>
-                        <h1>Ultima Movimentação do Item</h1>
+                        <h1>Status</h1>
                     </th>
                     <th>
                         <h1>Ações</h1>
@@ -50,27 +60,26 @@ $customers = $customerModel->getAllCustomers();
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($customers as $customer) :
+                <?php foreach ($itemData as $item) :
                 ?>
                     <?php
-                    if (empty($customer)) : ?>
+                    if (empty($item)) : ?>
                         <tr>
                             <td colspan="8">Nenhum Registro</td>
                         </tr>
                     <?php else :
-                        $customerId = $customer->getId();
-                        $editUrl = "formCustomer.php?id=$customerId";
+                        $itemId = $item->getId();
+                        $editUrl = "formCustomer.php?id=$itemId";
                     ?>
-                        <tr data-id="<?= $customerId ?>">
-                            <td><?= $customer->getCustomerName(); ?></td>
-                            <td id="totalEquipment" onclick="window.location.href='filterItem.php?id=<?= $customerId ?>'">
-                                <?= $customer->getTotalEquipment(); ?>
-                            </td>
-                            <td><?= $customer->getAddress(); ?></td>
-                            <td><?= $customer->getLastMovement(); ?></td>
+                        <tr data-id="<?= $itemId ?>">
+                            <td><?= $item->getItemName() ?></td>
+                            <td><?= $item->getLocation() ?></td>
+                            <td><?= $item->getCustomerName() ?></td>
+                            <td><?= $item->getLastMovement() ?></td>
+                            <td><?= $item->getSerialNumber() ?></td>
+                            <td><?= ($item->getStatus() == 1) ? 'Ativo' : (($item->getStatus() == 2) ? 'Inativo' : 'Manutenção') ?></td>
                             <td class="actions-cell">
-                                <button onclick="window.location.href='<?= $editUrl; ?>'" class="edit-button">Editar</button>
-                                <button class="remove-button" onclick="remove(<?= $customer->getId(); ?>, '../app/controllers/removeCustomerController.php', 'cliente')">Remover</button>
+                                <button id="btnHistory" onclick="window.location.href='<?= $editUrl; ?>'" class="edit-button">Historico</button>
                             </td>
                         </tr>
                 <?php
