@@ -31,7 +31,7 @@ $items = $itemsModel->getAllItems();
 
             <div class="d-flex flex-column ms-12">
                 <label for="customerName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nome do Cliente</label>
-                <input type="text" id="customerName" name="customerName" class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-30 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Rua Alberto Bins">
+                <input type="text" id="customerName" name="customerName" class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-30 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Jonas">
             </div>
 
             <div class="d-flex flex-column ms-12">
@@ -49,14 +49,14 @@ $items = $itemsModel->getAllItems();
         </div>
     </div>
 
-    <!-- <div class="w-full p-4 text-center bg-gray-800 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-         -->
-    <div class="d-flex flex-row">
-        <h2 class="text-3xl text-start font-medium text-gray-900 dark:text-white">Visualizar Equipamentos</h2>
-        <button class="text-white flex-end w-30 mr-4 bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2" onclick="window.location.href='formItem.php'">
-            <i class='bx bx-plus'></i>Adicionar Equipamento</span>
+    <div class="d-flex justify-content-between">
+        <h2 class="text-3xl mt-3 text-start font-medium text-gray-900 dark:text-white">Visualizar Equipamentos</h2>
+        <button class="text-white h-20 ml-auto w-30 mr-20 bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-base px-4 py-2 me-2 mb-2" onclick="window.location.href='formItem.php'">
+            <i class="bx bx-plus"></i>
+            Adicionar Equipamento
         </button>
     </div>
+
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg me-20">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -103,9 +103,7 @@ $items = $itemsModel->getAllItems();
                     <tr>
                         <td colspan="8">Inserir Registro</td>
                     </tr>
-                <?php else :
-                            $editUrl = "formItem.php?id=$itemId";
-                ?>
+                <?php else : ?>
                     <th scope="row" class="px-6 py-4">
                         <?= $item->getItemName() ?>
                     </th>
@@ -125,7 +123,7 @@ $items = $itemsModel->getAllItems();
                         <?= ($item->getStatus() == 1) ? 'Ativo' : (($item->getStatus() == 2) ? 'Inativo' : 'Manutenção') ?>
                     </td>
                     <td class="flex items-center px-6 py-4 ms-20">
-                        <button class="text-white w-30 mr-4 bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" onclick="window.location.href='<?= $editUrl; ?>'">Editar</button>
+                        <button data-modal-target="modal-item" data-modal-toggle="modal-item" class="text-white w-30 mr-4 bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" onclick="editItem(<?= $itemId ?>)">Editar</button>
                         <button class="text-white w-30 bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" onclick="remove(<?= $item->getId(); ?>, '../app/controllers/removeItemController.php', 'item')">Remover</button>
                     </td>
                 <?php endif; ?>
@@ -135,3 +133,5 @@ $items = $itemsModel->getAllItems();
         </table>
     </div>
 </section>
+
+<script src="assets/js/editItem.js"></script>
