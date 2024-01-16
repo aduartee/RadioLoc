@@ -51,7 +51,7 @@ $items = $itemsModel->getAllItems();
 
     <div class="d-flex justify-content-between">
         <h2 class="text-3xl mt-3 text-start font-medium text-gray-900 dark:text-white">Visualizar Equipamentos</h2>
-        <button class="text-white h-20 ml-auto w-30 mr-20 bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-base px-4 py-2 me-2 mb-2" onclick="window.location.href='formItem.php'">
+        <button data-modal-target="modal-item" data-modal-toggle="modal-item" onclick="newItem();" class="text-white h-20 ml-auto w-30 mr-20 bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-base px-4 py-2 me-2 mb-2">
             <i class="bx bx-plus"></i>
             Adicionar Equipamento
         </button>

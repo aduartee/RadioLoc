@@ -58,13 +58,12 @@ class ItemModel
                            ON equipment.customerID = customer.id 
                            WHERE equipment.id = :id";
                 $stmt = $connect->prepare($query);
-                $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+                $stmt->bindParam(':id', $id);
                 $stmt->execute();
                 $itemData = $stmt->fetch(PDO::FETCH_ASSOC);
+                error_log('Id na classe GetById ' . $id);
 
-                if (!($itemData)) {
-                    return null;
-                }
+
 
                 $item->setItemName($itemData['itemName']);
                 $item->setLocation($itemData['location']);
@@ -75,7 +74,23 @@ class ItemModel
                 $item->setStatus($itemData['status']);
                 $item->setAdditionalNotes($itemData['additionalNotes']);
                 $item->setLastMovement($itemData['lastMovement']);
-                return $item;
+
+                $itemArray = array(
+                    'itemName' => $item->getItemName(),
+                    'location' => $item->getLocation(),
+                    'customerName' => $item->getCustomerName(),
+                    'customerID' => $item->getCustomerID(),
+                    'model' => $item->getModel(),
+                    'serialNumber' => $item->getSerialNumber(),
+                    'status' => $item->getStatus(),
+                    'additionalNotes' => $item->getAdditionalNotes(),
+                    'lastMovement' => $item->getLastMovement()
+                );
+
+                $customerData = $this->getCustomerName();
+                $itemArray['customers'] = $customerData;
+
+                return $itemArray;
             } else {
                 return null;
             }

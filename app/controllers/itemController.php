@@ -6,7 +6,6 @@ require_once '../../vendor/autoload.php';
 
 use app\database\ItemModel;
 use PDOException;
-use PDO;
 
 $response = ['status' => 'error', 'message' => 'Erro ao processar a solicitação.'];
 $action = $_POST['action'];

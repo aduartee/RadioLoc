@@ -2,10 +2,7 @@
 
 namespace app\controllers;
 
-require_once(__DIR__ . '/../database/connect.php');
-require_once(__DIR__ . '/../classes/Item.php');
-require_once(__DIR__ . '/../database/ItemModel.php');
-
+require_once '../../vendor/autoload.php';
 
 use app\database\ItemModel;
 use PDOException;
@@ -15,8 +12,6 @@ if (isset($_POST['id']) && $_POST['id'] > 0) {
         $itemModel = new ItemModel;
         $itemId = $_POST['id'];
         $itemDetails = $itemModel->getById($itemId);
-
-        error_log('Item details retrieved: ' . print_r($itemDetails, true));
 
         header('Content-Type: application/json');
         echo json_encode($itemDetails);

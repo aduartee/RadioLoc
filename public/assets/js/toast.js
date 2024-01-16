@@ -34,7 +34,6 @@ function processForm(form, itemControllerUrl, successRedirect) {
             }
         },
         error: function (response) {
-            console.log(response);
             showErrorToast('Erro interno no servidor');
         }
     });
