@@ -10,7 +10,9 @@
   <link rel="stylesheet" href="assets/css/general.css">
   <link rel="stylesheet" href="assets/css/table.css">
   <link rel="stylesheet" href="assets/css/general_containers.css">
-
+  <!-- FLATPICKR -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
   <!-- BOX-ICONS -->
   <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
   <!-- JQUERY -->
@@ -23,6 +25,7 @@
 </head>
 
 <body>
+  <!-- MODAL EDIT/CREATE -->
   <div id="modal-item" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-full max-w-md max-h-full">
       <div class="relative bg-dark rounded-lg shadow dark:bg-gray-700">
@@ -36,7 +39,8 @@
           </button>
         </div>
         <form id="form" class="p-4 md:p-5" action="../app/controllers/itemController.php" method="post" onsubmit="return processForm(this, '../app/controllers/itemController.php', 'index.php')">
-          <input id="action" name="action" value="" hidden>
+          <input type="hidden" id="action" name="action" value="">
+          <input type="hidden" id="formId" name="id" value="">
           <div class="grid gap-4 mb-4 grid-cols-2">
             <div class="col-span-2">
               <label for="itemName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nome do Equipamento</label>
@@ -45,6 +49,10 @@
             <div class="col-span-2">
               <label for="location" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Localização</label>
               <input type="text" name="location" id="location" class="bg-gray-50 empty text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Rua Alberto Bins" required="">
+            </div>
+            <div class="col-span-2">
+              <label for="model" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Modelo do Equipamento</label>
+              <input type="text" name="model" id="model" class="bg-gray-50 empty text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Intelbras" required="">
             </div>
             <div class="col-span-2 sm:col-span-1">
               <label for="serialNumber" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Serial</label>
@@ -60,7 +68,7 @@
             </div>
             <div class="col-span-2">
               <label for="lastMovement" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ultima Movimentação</label>
-              <input type="text" name="lastMovement" id="lastMovement" class="bg-gray-50 empty text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="<?= date('d/m/Y')?>" required="">
+              <input type="text" name="lastMovement" id="lastMovement" class="bg-gray-50 empty text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="<?= date('d/m/Y') ?>" required="">
             </div>
             <div class="col-span-2">
               <label for="customerID" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nome do Cliente</label>
@@ -143,6 +151,9 @@
     <script src="assets/js/checkedAll.js"></script>
     <!-- AJAX REQUEST -->
     <script src="assets/js/editItem.js"></script>
+    <!-- FLATPICKR -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="assets/js/datePicker.js"></script>
 </body>
 
 </html>

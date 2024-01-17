@@ -9,10 +9,12 @@ function editItem(id) {
             if (response.error) {
                 return;
             }
+            $('#formId').val(id);
             $('#action').val('edit');
             $("#titleModal").html('Editar Equipamento')
             $("#itemName").val(response.itemName);
             $("#location").val(response.location);
+            $("#model").val(response.model);
             $("#serialNumber").val(response.serialNumber);
             $("#status").val(response.status);
             $("#lastMovement").val(response.lastMovement);

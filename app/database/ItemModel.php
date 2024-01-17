@@ -61,9 +61,6 @@ class ItemModel
                 $stmt->bindParam(':id', $id);
                 $stmt->execute();
                 $itemData = $stmt->fetch(PDO::FETCH_ASSOC);
-                error_log('Id na classe GetById ' . $id);
-
-
 
                 $item->setItemName($itemData['itemName']);
                 $item->setLocation($itemData['location']);

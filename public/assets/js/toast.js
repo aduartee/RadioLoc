@@ -17,9 +17,8 @@ function processForm(form, itemControllerUrl, successRedirect) {
                 Swal.fire({
                     icon: 'success',
                     title: 'Sucesso!',
-                    cancelButtonText: 'Voltar',
-                    confirmButtonText: 'Ir para pagina de listagem',
-                    showCancelButton: true,
+                    confirmButtonText: 'Ok',
+                    showCancelButton: false,
                     text: response.message,
                 }).then(response => {
                     if (response.isConfirmed) {
