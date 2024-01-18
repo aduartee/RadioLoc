@@ -159,6 +159,10 @@
      transition-timing-function: line;
  }
 
+#totalEquipment:hover{
+    cursor: pointer;
+}
+
  @media (max-width: 800px) {
 
      .container td:nth-child(4),

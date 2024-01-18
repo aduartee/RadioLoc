@@ -2,13 +2,17 @@
 
 namespace app\classes;
 
-class Customer 
+use app\Helpers\DataHelper;
+
+class Customer
 {
     private $id;
     private $customerName;
     private $totalEquipment;
     private $address;
     private $lastMovement;
+    private $status;
+    private $phone;
 
     /**
      * @return int
@@ -67,11 +71,36 @@ class Customer
      */
     public function getLastMovement()
     {
-        return $this->lastMovement;
+        if ($this->lastMovement != null) {
+            $helper = new DataHelper;
+            return $helper->formatToBrazil($this->lastMovement);
+        }
+
+        return null;
     }
 
     public function setLastMovement($lastMovement)
     {
         $this->lastMovement = $lastMovement;
+    }
+
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
+
+    public function getPhone()
+    {
+        return $this->phone;
+    }
+
+    public function setPhone($phone)
+    {
+        $this->phone = $phone;
     }
 }

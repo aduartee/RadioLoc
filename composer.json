@@ -7,7 +7,8 @@
         },
         "files": [
             "app/database/ItemModel.php",
-            "app/database/connect.php"
+            "app/database/connect.php",
+            "app/helpers/DataHelper.php"
         ]
     },    
     "authors": [

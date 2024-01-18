@@ -6,7 +6,6 @@ require_once '../../vendor/autoload.php';
 
 use app\database\ItemModel;
 use PDOException;
-use PDO;
 
 $response = ['status' => 'error', 'message' => 'Erro ao processar a solicitação.'];
 $action = $_POST['action'];
@@ -15,7 +14,7 @@ try {
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $itemName = $_POST['itemName'];
         $location = $_POST['location'];
-        $clientName = $_POST['clientName'];
+        $customerID = $_POST['customerID'];
         $model = $_POST['model'];
         $serialNumber = $_POST['serialNumber'];
         $status = $_POST['status'];
@@ -31,13 +30,13 @@ try {
         }
 
         if (isset($action) && $action == 'create') {
-            if ($itemModel->createItem($itemName, $location, $clientName, $model, $serialNumber, $status, $lastMovement, $additionalNotes)) {
+            if ($itemModel->createItem($itemName, $location, $customerID, $model, $serialNumber, $status, $lastMovement, $additionalNotes)) {
                 $response['status'] = 'success';
                 $response['message'] = 'Item criado com sucesso!';
             }
         } else if (isset($action) && $action == 'edit') {
             $id = $_POST['id'];
-            if ($itemModel->editItem($itemName, $location, $clientName,  $model, $serialNumber, $status, $lastMovement, $additionalNotes, $id)) {
+            if ($itemModel->editItem($itemName, $location, $customerID,  $model, $serialNumber, $status, $lastMovement, $additionalNotes, $id)) {
                 $response['status'] = 'success';
                 $response['message'] = 'Alterações salvas com sucesso!';
             }

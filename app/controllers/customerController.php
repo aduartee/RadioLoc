@@ -7,7 +7,6 @@ require_once '../../vendor/autoload.php';
 use app\database\CustomerModel;
 use PDOException;
 
-
 try {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $response = ['status' => 'error', 'message' => 'Erro ao processar a solicitação.'];
@@ -21,22 +20,24 @@ try {
         $id = $_POST['id'];
         $customerName = $_POST['customerName'];
         $address = $_POST['address'];
+        $phone = $_POST['phone'];
+        $status = $_POST['status'];
         $action = $_POST['action'];
 
         if (isset($action)) {
             if ($action === 'create' && empty($id)) {
-                if ($customerModel->createCustomer($customerName, $address)) {
+                if ($customerModel->createCustomer($customerName, $address, $phone, $status)) {
                     $response['status'] = 'success';
                     $response['message'] = 'Cliente criado com sucesso!';
                 }
-            } elseif ($action === 'edit' && $id !== null) {
-                if ($customerModel->editCustomer($id, $customerName, $address)) {
+            } elseif ($action === 'edit' && $id > 0 && $id != null) {
+                if ($customerModel->editCustomer($id, $customerName, $address, $phone, $status)) {
                     $response['status'] = 'success';
                     $response['message'] = 'Cliente alterado com sucesso!';
                 }
             } else {
                 $response['status'] = 'error';
-                $response['message'] = 'Erro ao realizar ação';
+                $response['message'] = 'Erro ao realizar a ação';
             }
         }
     }

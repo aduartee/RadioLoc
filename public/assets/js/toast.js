@@ -14,12 +14,12 @@ function processForm(form, itemControllerUrl, successRedirect) {
         data: $(form).serialize(),
         success: function (response) {
             if (response.status === 'success') {
+                console.log(response);
                 Swal.fire({
                     icon: 'success',
                     title: 'Sucesso!',
-                    cancelButtonText: 'Voltar',
-                    confirmButtonText: 'Ir para pagina de listagem',
-                    showCancelButton: true,
+                    confirmButtonText: 'Ok',
+                    showCancelButton: false,
                     text: response.message,
                 }).then(response => {
                     if (response.isConfirmed) {
@@ -30,6 +30,7 @@ function processForm(form, itemControllerUrl, successRedirect) {
                     }
                 });
             } else {
+                console.log(response);
                 showErrorToast(response.message);
             }
         },
