@@ -15,7 +15,7 @@ $items = $itemsModel->getAllItems();
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
-<section class="home-section">
+<section class="home-section mb-10">
     <div class="h-60 max-w-full me-20 mb-20 mt-10 p-4 bg-gray-800 rounded-lg shadow-xl dark:shadow-dark-800 sm:p-8 dark:bg-gray-800 dark:border-gray-700">
         <h2 class="text-3xl text-start text-gray-900 dark:text-white">Buscar Equipamentos</h2>
         <div class="d-flex flex-row">
@@ -57,7 +57,7 @@ $items = $itemsModel->getAllItems();
         </button>
     </div>
 
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg me-20">
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg me-20 ">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr class="text-center">
@@ -134,4 +134,4 @@ $items = $itemsModel->getAllItems();
     </div>
 </section>
 
-<script src="assets/js/editItem.js"></script>
+<script src="assets/js/modalAjax.js"></script>

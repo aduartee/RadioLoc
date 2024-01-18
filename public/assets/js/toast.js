@@ -14,6 +14,7 @@ function processForm(form, itemControllerUrl, successRedirect) {
         data: $(form).serialize(),
         success: function (response) {
             if (response.status === 'success') {
+                console.log(response);
                 Swal.fire({
                     icon: 'success',
                     title: 'Sucesso!',
@@ -29,10 +30,12 @@ function processForm(form, itemControllerUrl, successRedirect) {
                     }
                 });
             } else {
+                console.log(response);
                 showErrorToast(response.message);
             }
         },
         error: function (response) {
+            console.log(response);
             showErrorToast('Erro interno no servidor');
         }
     });

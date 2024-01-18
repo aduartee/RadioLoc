@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-    console.log('Flat Iniciado');
     flatpickr("#lastMovement", {
         dateFormat: "d/m/Y",
         locale: {
