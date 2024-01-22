@@ -3,6 +3,7 @@
 namespace app\database;
 
 use app\classes\Item;
+use app\classes\MovementHistory;
 use PDOException;
 use PDO;
 
@@ -190,11 +191,26 @@ class ItemModel
         }
     }
 
+    public function removeItem($id)
+    {
+        try {
+            $connect = connect();
+            $stmt = $connect->prepare("UPDATE equipment SET status = 2 WHERE id = :id");
+            $stmt->bindParam(":id", $id);
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            $e->getMessage();
+            return false;
+        }
+    }
+
     public function getCustomerName()
     {
         try {
             $connect = connect();
             $query = "SELECT id, customerName FROM customer WHERE status = 1 ORDER BY id DESC";
+
             $stmt = $connect->prepare($query);
             $stmt->execute();
             $customers = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -204,14 +220,59 @@ class ItemModel
         }
     }
 
-    public function removeItem($id)
+    public function addNewMovement($equipmentId, $newLocation, $dateMovement)
     {
         try {
             $connect = connect();
-            $stmt = $connect->prepare("UPDATE equipment SET status = 2 WHERE id = :id");
-            $stmt->bindParam(":id", $id);
+            if (!$connect) {
+                error_log('Erro de conexão');
+                exit();
+            }
+            $query = " INSERT INTO
+                         movementhistory
+                         (equipmentId,
+                         newLocation,
+                         date)
+                       VALUES 
+                         (:equipmentId,
+                          :newLocation,
+                          :date)";
+
+            $stmt = $connect->prepare($query);
+            $stmt->bindParam(':equipmentId', $equipmentId);
+            $stmt->bindParam(':newLocation', $newLocation);
+            $stmt->bindParam(':date', $dateMovement);
             $stmt->execute();
             return true;
+        } catch (PDOException $e) {
+            $e->getMessage();
+            return false;
+        }
+    }
+
+    public function getMovementHistory($idItem)
+    {
+        try {
+            $connect = connect();
+            if (!$connect) {
+                error_log('Erro de conexão');
+                exit();
+            }
+            $historyMovemet = [];
+            $stmt = $connect->prepare('SELECT * FROM movementhistory WHERE equipmentId = :idItem');
+            $stmt->bindParam(':idItem', $idItem);
+            $stmt->execute();
+            $historyData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $movementHistory = new MovementHistory;
+
+            foreach ($historyData as $dataMovement) {
+                $movementHistory->setId($dataMovement['id']);
+                $movementHistory->setEquipmentId($dataMovement['equipmentId']);
+                $movementHistory->setEquipmentId($dataMovement['newLocation']);
+                $movementHistory->setDate($dataMovement['date']);
+                $historyMovemet[] = $movementHistory;
+            }
+            return $historyMovemet;
         } catch (PDOException $e) {
             $e->getMessage();
             return false;

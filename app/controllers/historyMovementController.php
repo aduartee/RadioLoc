@@ -23,9 +23,5 @@ try {
         }
     }
 } catch (PDOException $e) {
-    $reponse['status'] = 'error';
-    $response['message'] = 'Erro interno no servidor.';
-}
 
-header('Content-Type: application/json');
-echo json_encode($response);
+}

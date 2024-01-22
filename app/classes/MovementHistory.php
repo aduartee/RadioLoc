@@ -1,9 +1,11 @@
 <?php
+namespace app\classes;
+
 class MovementHistory
 {
     private $id;
     private $equipmentId;
-    private $movement;
+    private $newMovement;
     private $date;
 
     public function getId()
@@ -26,14 +28,14 @@ class MovementHistory
         $this->equipmentId = $equipmentId;
     }
 
-    public function getMovement()
+    public function getNewMovement()
     {
-        return $this->movement;
+        return $this->newMovement;
     }
 
-    public function setMovement($movement)
+    public function setNewMovement($newMovement)
     {
-        $this->movement = $movement;
+        $this->newMovement = $newMovement;
     }
 
     public function getDate()

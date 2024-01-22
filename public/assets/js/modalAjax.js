@@ -84,7 +84,7 @@ function newCustomer() {
             $(this).empty();
         }
     });
-    
+
     $('#actionCustomer').val('create');
     $("#titleCustomer").html('Criar Cliente');
 }
@@ -102,4 +102,19 @@ function populateCustomerDropdown(customers, selectedCustomerID) {
     if (selectedOption.length > 0) {
         select.val(selectedCustomerID);
     }
+}
+
+function modalHistory(idItem) {
+    $.ajax({
+        type: 'POST',
+        url: '../app/controllers/historyMovementController.php',
+        data: {
+            idItem: idItem,
+        },
+        success: function () {
+
+        }, error: function () {
+
+        }
+    });
 }
