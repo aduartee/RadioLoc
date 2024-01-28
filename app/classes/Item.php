@@ -14,7 +14,6 @@ class Item
     private $model;
     private $serialNumber;
     private $status;
-    private $movementHistory = [];
     private $lastMovement;
     private $additionalNotes;
 
@@ -118,33 +117,6 @@ class Item
     {
         $this->status = $status;
     }
-
-    /**
-     * @return array
-     */
-    public function getMovementHistory()
-    {
-        return $this->movementHistory;
-    }
-
-    // This method will be changed in the future to follow business rules.
-    // public function addMovementToHistory($movement, $date)
-    // {
-    //     $movementHistoryEntry = new MovementHistory();
-    //     $movementHistoryEntry->setEquipmentId($this->getId());
-    //     $movementHistoryEntry->setMovement($movement);
-    //     $movementHistoryEntry->setDate($date);
-
-    //     $this->movementHistory[] = $movementHistoryEntry;
-    // }
-
-    // This method will be changed in the future to follow business rules. 
-    // public function getLastMovement()
-    // {
-    //     $lastMovementIndex = count($this->movementHistory) - 1;
-    //     return ($lastMovementIndex >= 0) ? $this->movementHistory[$lastMovementIndex] : null;
-    // }
-
 
     /**
      * @return string

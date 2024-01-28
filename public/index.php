@@ -81,7 +81,7 @@ $items = $itemsModel->getAllItems();
                     <th scope="col" class="px-6 py-3 text-lg">
                         Serial
                     </th>
-                    <th scope="col" class="px-6 py-3 text-lg">
+                    <th scope="col" class=" text-lg">
                         Status
                     </th>
                     <th scope="col" class="px-6 py-3 text-lg">
@@ -123,8 +123,9 @@ $items = $itemsModel->getAllItems();
                         <?= ($item->getStatus() == 1) ? 'Ativo' : (($item->getStatus() == 2) ? 'Inativo' : 'Manutenção') ?>
                     </td>
                     <td class="flex items-center px-6 py-4 ms-20">
-                        <button data-modal-target="modal-item" data-modal-toggle="modal-item" class="text-white w-30 mr-4 bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" onclick="editItem(<?= $itemId ?>)">Editar</button>
-                        <button class="text-white w-30 bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" onclick="remove(<?= $item->getId(); ?>, '../app/controllers/removeItemController.php', 'item')">Remover</button>
+                        <button data-modal-target="modal-item" data-modal-toggle="modal-item" class="text-white w-auto mr-4 bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" onclick="editItem(<?= $itemId ?>)">Editar</button>
+                        <button id="open-movement-modal" data-modal-target="modal-movement" data-modal-toggle="modal-movement" class="text-white w-auto bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2" onclick="getItemId(<?= $itemId ?>)">Adicionar Movimentação</button>
+                        <button class="text-white w-auto bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 ms-2 mb-2" onclick="remove(<?= $item->getId(); ?>, '../app/controllers/removeItemController.php', 'este item')">Remover</button>
                     </td>
                 <?php endif; ?>
                 </tr>
@@ -135,3 +136,4 @@ $items = $itemsModel->getAllItems();
 </section>
 
 <script src="assets/js/modalAjax.js"></script>
+<script src="assets/js/getIdBtn.js"></script>
