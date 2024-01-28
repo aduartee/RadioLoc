@@ -205,6 +205,20 @@ class ItemModel
         }
     }
 
+    public function removeMovementItem($movementId)
+    {
+        try {
+            $connect = connect();
+            $stmt = $connect->prepare("UPDATE movementhistory SET status = 2 WHERE id = :movementId");
+            $stmt->bindParam(":movementId", $movementId);
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            $e->getMessage();
+            return false;
+        }
+    }
+
     public function getCustomerName()
     {
         try {
@@ -250,7 +264,7 @@ class ItemModel
         }
     }
 
-    public function getMovementHistory($idItem)
+    public function getMovementHistory($itemId)
     {
         try {
             $connect = connect();
@@ -258,23 +272,32 @@ class ItemModel
                 error_log('Erro de conexão');
                 exit();
             }
-            $historyMovemet = [];
-            $stmt = $connect->prepare('SELECT * FROM movementhistory WHERE equipmentId = :idItem');
-            $stmt->bindParam(':idItem', $idItem);
+            $historyMovements = [];
+            $stmt = $connect->prepare("SELECT * FROM movementhistory WHERE equipmentId = :itemId AND status = 1 ORDER BY id ASC");
+            $stmt->bindParam(':itemId', $itemId, PDO::PARAM_INT);
             $stmt->execute();
             $historyData = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            $movementHistory = new MovementHistory;
 
             foreach ($historyData as $dataMovement) {
+                $movementHistory = new MovementHistory;
                 $movementHistory->setId($dataMovement['id']);
                 $movementHistory->setEquipmentId($dataMovement['equipmentId']);
-                $movementHistory->setEquipmentId($dataMovement['newLocation']);
+                $movementHistory->setNewLocation($dataMovement['newLocation']);
                 $movementHistory->setDate($dataMovement['date']);
-                $historyMovemet[] = $movementHistory;
+
+                $movementArray = array(
+                    'id' => $movementHistory->getId(),
+                    'equipmentId' => $movementHistory->getEquipmentId(),
+                    'newLocation' => $movementHistory->getNewLocation(),
+                    'date' => $movementHistory->getDate()
+                );
+
+                $historyMovements[] = $movementArray;
             }
-            return $historyMovemet;
+
+            return $historyMovements;
         } catch (PDOException $e) {
-            $e->getMessage();
+            error_log('Erro durante a execução da declaração preparada: ' . $e->getMessage());
             return false;
         }
     }

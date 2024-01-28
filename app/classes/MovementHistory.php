@@ -5,7 +5,7 @@ class MovementHistory
 {
     private $id;
     private $equipmentId;
-    private $newMovement;
+    private $newLocation;
     private $date;
 
     public function getId()
@@ -28,14 +28,14 @@ class MovementHistory
         $this->equipmentId = $equipmentId;
     }
 
-    public function getNewMovement()
+    public function getNewLocation()
     {
-        return $this->newMovement;
+        return $this->newLocation;
     }
 
-    public function setNewMovement($newMovement)
+    public function setNewLocation($newLocation)
     {
-        $this->newMovement = $newMovement;
+        $this->newLocation = $newLocation;
     }
 
     public function getDate()

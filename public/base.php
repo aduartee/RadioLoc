@@ -157,7 +157,7 @@
               </div>
               <div class="col-span-2 sm:col-span-1">
                 <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Telefone</label>
-                <input type="text" name="phone" id="phone" class="bg-gray-50 empty text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="(XX) XXXX-XXXX">
+                <input type="text" name="phone" id="phone" class="bg-gray-50 empty text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" onkeyup="handlePhone(event)" placeholder="(XX) XXXX-XXXX">
               </div>
               <div class="col-span-2 sm:col-span-1">
                 <label for="status" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status</label>
@@ -179,40 +179,22 @@
       </div>
     </div>
 
-    <div id="list-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-      <div class="relative p-4 w-full max-w-md max-h-full">
-        <div class="relative bg-dark rounded-lg shadow dark:bg-gray-700">
-          <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-              Movimentações
-            </h3>
-            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="list-modal">
-              <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-              </svg>
-              <span class="sr-only">Close modal</span>
-            </button>
-          </div>
-          <div class="p-4 md:p-5">
-            <p class="text-white dark:text-gray-400 mb-4">Historico de Movimentaçãoes</p>
-            <ul class="space-y-4 mb-4">
-              <li>
-                <input type="radio" id="job-1" name="job" value="job-1" class="hidden peer" required>
-                <label for="job-1" class="inline-flex items-center justify-between w-full p-5 text-gray-900 bg-gray border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-500 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-900 hover:bg-gray-100 dark:text-white dark:bg-gray-600 dark:hover:bg-gray-500">
-                  <div class="block">
-                    <div class="w-full text-lg font-semibold" id="infoDateMovement"></div>
-                    <div class="w-full text-gray-500 dark:text-gray-400" id="infoNewLocation"></div>
-                  </div>
-                  <svg class="w-4 h-4 ms-3 rtl:rotate-180 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
-                  </svg>
-                </label>
-              </li>
-            </ul>
-            <!-- <button class="text-white inline-flex w-full justify-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-              Next step
-            </button> -->
-          </div>
+    <div id="list-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-auto">
+      <div class="w-full max-w-md p-4 bg-dark border border-dark rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+        <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+          <h5 class="text-2xl font-bold leading-none text-gray-900 dark:text-white">Historico de Movimentações</h5>
+          <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="list-modal">
+            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+            </svg>
+            <span class="sr-only">Close modal</span>
+          </button>
+        </div>
+        <!-- <div class="flex items-center justify-between mb-4">
+        </div> -->
+        <div class="flow-root">
+          <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+          </ul>
         </div>
       </div>
     </div>
@@ -276,10 +258,14 @@
       <script src="assets/js/checkedAll.js"></script>
       <!-- AJAX REQUEST -->
       <script src="assets/js/modalAjax.js"></script>
+      <!-- PHONE MASK -->
+      <script src="assets/js/phoneMask.js"></script>
       <!-- FLATPICKR -->
       <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
       <script src="assets/js/datePicker.js"></script>
       <script src="assets/js/getIdBtn.js"></script>
+      <!-- TOOLTIPS -->
+      <script src="assets/js/tooltips.js"></script>
   </body>
 
 </html>

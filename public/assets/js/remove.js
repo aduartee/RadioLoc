@@ -1,7 +1,7 @@
 function remove(id, url, text) {
     Swal.fire({
         title: 'Confirmação',
-        text: 'Tem certeza de que deseja remover este ' + text + '?',
+        text: 'Tem certeza de que deseja remover ' + text + '?',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',

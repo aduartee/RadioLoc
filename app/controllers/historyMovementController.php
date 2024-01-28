@@ -5,23 +5,28 @@ namespace app\controllers;
 require_once '../../vendor/autoload.php';
 
 use app\database\ItemModel;
+use app\classes\MovementHistory;
 use PDOException;
 
 try {
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $equipmentId = $_POST['idItem'];
-        $dateMovement = $_POST['dateMovement'];
-        $newLocation = $_POST['newLocation'];
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['itemId'])) {
         $itemModel = new ItemModel;
+        $itemId = $_POST['itemId'];
+        $movementHistory = $itemModel->getMovementHistory($itemId);
 
-        if ($itemModel->addNewMovement($equipmentId, $newLocation, $dateMovement)) {
-            $response['status'] = 'success';
-            $response['message'] = 'Movimentação adicionada com sucesso!';
+        if ($movementHistory) {
+            $reponse['status'] = 'success';
+            $response['message'] = '';
+            $response['data'] = $movementHistory;
         } else {
             $reponse['status'] = 'error';
-            $response['message'] = 'Erro ao adicionar nova movimentação';
+            $response['message'] = 'Nenhuma Movimentação Registrada 🙁';
         }
     }
 } catch (PDOException $e) {
-
+    $reponse['status'] = 'error';
+    $response['message'] = 'Erro interno no servidor.';
 }
+
+header('Content-Type: application/json');
+echo json_encode($response);
