@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    flatpickr("#lastMovement", {
+    flatpickr(".datePicker", {
         dateFormat: "d/m/Y",
         locale: {
             name: "Portuguese",

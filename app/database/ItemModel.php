@@ -2,17 +2,30 @@
 
 namespace app\database;
 
+use PDO;
+use PDOException;
 use app\classes\Item;
 use app\classes\MovementHistory;
-use PDOException;
-use PDO;
 
 class ItemModel
 {
+    private $connect;
+
+    public function __construct()
+    {
+        try {
+            $this->connect = connect();
+            if (!$this->connect) {
+                error_log('Erro de conexão');
+                exit();
+            }
+        } catch (PDOException $e) {
+            $e->getMessage();
+        }
+    }
     public function getAllItems()
     {
         try {
-            $connect = connect();
             $query = " SELECT equipment.*, 
                                 customer.customerName
                                 FROM equipment
@@ -20,7 +33,7 @@ class ItemModel
                                 ON equipment.customerID = customer.id 
                                 WHERE equipment.status = 1 
                                 ORDER BY equipment.id DESC";
-            $stmt = $connect->query($query);
+            $stmt = $this->connect->query($query);
 
             $itemsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -51,14 +64,13 @@ class ItemModel
     {
         try {
             if (isset($id) && $id != 0) {
-                $connect = connect();
                 $item = new Item;
                 $query = " SELECT equipment.*, customer.customerName 
                            FROM equipment
                            LEFT JOIN customer
                            ON equipment.customerID = customer.id 
                            WHERE equipment.id = :id";
-                $stmt = $connect->prepare($query);
+                $stmt = $this->connect->prepare($query);
                 $stmt->bindParam(':id', $id);
                 $stmt->execute();
                 $itemData = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -101,8 +113,7 @@ class ItemModel
     {
         try {
             if (isset($id) && $id > 0) {
-                $connect = connect();
-                $stmt = $connect->prepare(" SELECT
+                $stmt = $this->connect->prepare(" SELECT
                                             *
                                            FROM
                                             equipment AS e
@@ -143,8 +154,7 @@ class ItemModel
     public function createItem($itemName, $location, $customerID, $model, $serialNumber, $status, $lastMovement, $additionalNotes)
     {
         try {
-            $connect = connect();
-            $stmt = $connect->prepare(" INSERT INTO equipment (itemName, location, customerID, model, serialNumber, status, lastMovement, additionalNotes) 
+            $stmt = $this->connect->prepare(" INSERT INTO equipment (itemName, location, customerID, model, serialNumber, status, lastMovement, additionalNotes) 
             VALUES(:itemName, :location, :customerID, :model, :serialNumber, :status, :lastMovement, :additionalNotes)");
             $stmt->bindParam(':itemName', $itemName);
             $stmt->bindParam(':location', $location);
@@ -164,8 +174,7 @@ class ItemModel
     public function editItem($itemName, $location, $customerID,  $model, $serialNumber, $status, $lastMovement, $additionalNotes, $id)
     {
         try {
-            $connect = connect();
-            $stmt = $connect->prepare(" UPDATE equipment 
+            $stmt = $this->connect->prepare(" UPDATE equipment 
                                         SET itemName = :itemName, 
                                         location = :location,
                                         customerID = :customerID, 
@@ -194,8 +203,7 @@ class ItemModel
     public function removeItem($id)
     {
         try {
-            $connect = connect();
-            $stmt = $connect->prepare("UPDATE equipment SET status = 2 WHERE id = :id");
+            $stmt = $this->connect->prepare("UPDATE equipment SET status = 2 WHERE id = :id");
             $stmt->bindParam(":id", $id);
             $stmt->execute();
             return true;
@@ -208,8 +216,7 @@ class ItemModel
     public function removeMovementItem($movementId)
     {
         try {
-            $connect = connect();
-            $stmt = $connect->prepare("UPDATE movementhistory SET status = 2 WHERE id = :movementId");
+            $stmt = $this->connect->prepare("UPDATE movementhistory SET status = 2 WHERE id = :movementId");
             $stmt->bindParam(":movementId", $movementId);
             $stmt->execute();
             return true;
@@ -222,10 +229,9 @@ class ItemModel
     public function getCustomerName()
     {
         try {
-            $connect = connect();
             $query = "SELECT id, customerName FROM customer WHERE status = 1 ORDER BY id DESC";
 
-            $stmt = $connect->prepare($query);
+            $stmt = $this->connect->prepare($query);
             $stmt->execute();
             $customers = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $customers;
@@ -234,28 +240,115 @@ class ItemModel
         }
     }
 
-    public function addNewMovement($equipmentId, $newLocation, $dateMovement)
+    public function addNewMovement($equipmentId, $newLocation, $dateMovement, $typeMovement)
     {
         try {
-            $connect = connect();
-            if (!$connect) {
-                error_log('Erro de conexão');
-                exit();
-            }
             $query = " INSERT INTO
                          movementhistory
                          (equipmentId,
                          newLocation,
-                         date)
+                         date,
+                         movementType)
                        VALUES 
                          (:equipmentId,
                           :newLocation,
-                          :date)";
+                          :date,
+                          :movementType
+                          )";
 
-            $stmt = $connect->prepare($query);
+            $stmt = $this->connect->prepare($query);
             $stmt->bindParam(':equipmentId', $equipmentId);
             $stmt->bindParam(':newLocation', $newLocation);
             $stmt->bindParam(':date', $dateMovement);
+            $stmt->bindParam(':movementType', $typeMovement);
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            $e->getMessage();
+            return false;
+        }
+    }
+
+    public function addTransferMovement($equipmentId, $fromCustomerID, $toCustomerID, $dateMovement, $typeMovement)
+    {
+        try {
+            $query = " INSERT INTO 
+                    movementhistory
+                    (equipmentId,
+                    date,
+                    fromCustomer,
+                    toCustomer,
+                    movementType)
+                   VALUES
+                    (:equipmentId,
+                    :dateMovement,
+                    :fromCustomerID,
+                    :toCustomerID,
+                    :movementType 
+                    )";
+            $stmt = $this->connect->prepare($query);
+            $stmt->bindParam(':equipmentId', $equipmentId);
+            $stmt->bindParam(':dateMovement', $dateMovement);
+            $stmt->bindParam(':fromCustomerID', $fromCustomerID);
+            $stmt->bindParam(':toCustomerID', $toCustomerID);
+            $stmt->bindParam(':movementType', $typeMovement);
+            return true;
+        } catch (PDOException $e) {
+            $e->getMessage();
+            return false;
+        }
+    }
+
+
+    public function addMaintenanceMovement($equipmentId, $equipamentSituation, $dateMovement, $typeMovement)
+    {
+        try {
+            $query = " INSERT INTO 
+                        movementhistory
+                        (equipmentId,
+                        date,
+                        equipamentSituation,
+                        movementType)
+                    VALUES
+                        (:equipmentId,
+                        :dateMovement,
+                        :equipamentSituation,
+                        :movementType 
+                        )";
+
+            $stmt = $this->connect->prepare($query);
+            $stmt->bindParam(':equipmentId', $equipmentId);
+            $stmt->bindParam(':dateMovement', $dateMovement);
+            $stmt->bindParam(':equipamentSituation', $equipamentSituation);
+            $stmt->bindParam(':movementType', $typeMovement);
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            $e->getMessage();
+            return false;
+        }
+    }
+
+    public function addLostMovement($equipmentId, $lossOrMisplacement, $dateMovement, $typeMovement)
+    {
+        try {
+            $query = "INSERT INTO 
+                    movementhistory
+                    (equipmentId,
+                    date,
+                    equipamentSituation,
+                    movementType)
+                  VALUES
+                    (:equipmentId,
+                    :dateMovement,
+                    :lossOrMisplacement,
+                    :movementType)";
+
+            $stmt = $this->connect->prepare($query);
+            $stmt->bindParam(':equipmentId', $equipmentId);
+            $stmt->bindParam(':dateMovement', $dateMovement);
+            $stmt->bindParam(':lossOrMisplacement', $lossOrMisplacement);
+            $stmt->bindParam(':movementType', $typeMovement);
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
@@ -267,31 +360,34 @@ class ItemModel
     public function getMovementHistory($itemId)
     {
         try {
-            $connect = connect();
-            if (!$connect) {
-                error_log('Erro de conexão');
-                exit();
-            }
             $historyMovements = [];
-            $stmt = $connect->prepare("SELECT * FROM movementhistory WHERE equipmentId = :itemId AND status = 1 ORDER BY id ASC");
+            $stmt = $this->connect->prepare(" SELECT 
+                                                m.*,  
+                                                fromCustomer.customerName AS fromCustomerName,
+                                                toCustomer.customerName AS toCustomerName
+                                              FROM 
+                                                movementhistory AS m
+                                              LEFT JOIN
+                                                customer AS fromCustomer
+                                              ON 
+                                                m.fromCustomer = fromCustomer.id
+                                              LEFT JOIN
+                                                customer AS toCustomer
+                                              ON 
+                                                m.toCustomer = toCustomer.id
+                                              WHERE 
+                                                m.equipmentId = :itemId AND 
+                                                m.status = 1
+                                              ORDER BY 
+                                                m.id ASC;
+                                            ");
             $stmt->bindParam(':itemId', $itemId, PDO::PARAM_INT);
             $stmt->execute();
             $historyData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            error_log($itemId);
 
             foreach ($historyData as $dataMovement) {
-                $movementHistory = new MovementHistory;
-                $movementHistory->setId($dataMovement['id']);
-                $movementHistory->setEquipmentId($dataMovement['equipmentId']);
-                $movementHistory->setNewLocation($dataMovement['newLocation']);
-                $movementHistory->setDate($dataMovement['date']);
-
-                $movementArray = array(
-                    'id' => $movementHistory->getId(),
-                    'equipmentId' => $movementHistory->getEquipmentId(),
-                    'newLocation' => $movementHistory->getNewLocation(),
-                    'date' => $movementHistory->getDate()
-                );
-
+                $movementArray = $this->createMovementArray($dataMovement);
                 $historyMovements[] = $movementArray;
             }
 
@@ -300,5 +396,34 @@ class ItemModel
             error_log('Erro durante a execução da declaração preparada: ' . $e->getMessage());
             return false;
         }
+    }
+
+    private function createMovementArray($dataMovement)
+    {
+        $movementArray = [
+            'id' => $dataMovement['id'],
+            'equipmentId' => $dataMovement['equipmentId'],
+            'movementType' => $dataMovement['movementType']
+        ];
+
+        switch ($dataMovement['movementType']) {
+            case 'location':
+                $movementArray['newLocation'] = $dataMovement['newLocation'];
+                $movementArray['date'] = $dataMovement['date'];
+                break;
+
+            case 'transfer':
+                $movementArray['fromCustomerName'] = $dataMovement['fromCustomerName'];
+                $movementArray['toCustomerName'] = $dataMovement['toCustomerName'];
+                break;
+
+            case 'maintenance':
+            case 'lost':
+                $movementArray['date'] = $dataMovement['date'];
+                $movementArray['equipamentSituation'] = $dataMovement['equipamentSituation'];
+                break;
+        }
+
+        return $movementArray;
     }
 }
