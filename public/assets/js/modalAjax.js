@@ -1,31 +1,50 @@
-function editItem(id) {
-    $.ajax({
-        type: "POST",
-        url: "../app/controllers/completeFormController.php",
-        data: {
-            id: id
-        },
-        success: function (response) {
-            if (response.error) {
-                return;
-            }
-            $('#formId').val(id);
-            $('#action').val('edit');
-            $("#titleModal").html('Editar Equipamento');
-            $("#itemName").val(response.itemName);
-            $("#location").val(response.location);
-            $("#model").val(response.model);
-            $("#serialNumber").val(response.serialNumber);
-            $("#status").val(response.status);
-            $("#lastMovement").val(response.lastMovement);
-            $("#additionalNotes").val(response.additionalNotes);
-            populateCustomerDropdown(response.customers, response.customerID);
-
-        },
-        error: function () {
-            console.log('Erro total');
-        }
+function showToastSuccess(message) {
+    Swal.fire({
+        icon: 'success',
+        title: 'Sucesso',
+        text: message,
     });
+}
+
+function showToastError(message) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: message,
+    });
+}
+
+function editItem(id) {
+    fetch('../app/controllers/completeFormController.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: 'id=' + encodeURIComponent(id),
+    })
+        .then(response => {
+            if (!response.ok) {
+                showToastError('Erro ao realizar a requisição, tente novamente 😀');
+                throw new Error('Erro na requisição');
+            }
+            return response.json();
+        })
+        .then(response => {
+            document.getElementById('formId').value = id;
+            document.getElementById('action').value = 'edit';
+            document.getElementById('titleModal').textContent = 'Editar Equipamento';
+            document.getElementById('itemName').value = response.itemName;
+            document.getElementById('location').value = response.location;
+            document.getElementById('model').value = response.model;
+            document.getElementById('serialNumber').value = response.serialNumber;
+            document.getElementById('status').value = response.status;
+            document.getElementById('lastMovement').value = response.lastMovement;
+            document.getElementById('additionalNotes').value = response.additionalNotes;
+            populateCustomerDropdown(response.customers, response.customerID);
+        })
+        .catch(error => {
+            showToastError('Erro ao processar a requisição. Por favor, tente novamente.')
+        });
 }
 
 
@@ -47,7 +66,6 @@ function newItem() {
         success: function (response) {
             populateCustomerDropdown(response, null);
         }, error: function () {
-            console.log(response);
         }
     });
 }
@@ -84,6 +102,7 @@ function completeCustomerMovement(equipamentId) {
         })
         .catch(error => {
             console.error('Erro:', error);
+            showToastError(error);
         });
 }
 
@@ -92,9 +111,6 @@ function populateCustomerMovement(customers) {
     var selectTo = $("#toCustomerID");
     selectFrom.empty();
     selectTo.empty();
-
-    console.log(customers[0]);
-    console.log(customers[1]['CustomerName']);
 
     customers[0].forEach(function (customer) {
         var option2 = $("<option>").val(customer['id']).text(customer['customerName']).appendTo(selectTo);
@@ -122,8 +138,8 @@ function editCustomer(id) {
             $('#address').val(response.address);
             $('#status').val(response.status);
             $('#phone').val(response.phone);
-        }, error: function () {
-            console.log('Erro total');
+        }, error: function (response) {
+            showToastError(response.message);
         }
     });
 }
@@ -266,7 +282,6 @@ function modalHistory(itemId) {
                         });
                     });
                 } else {
-                    console.log(response);
                     var listModal = document.getElementById('list-modal');
                     var ul = listModal.querySelector('ul');
                     ul.innerHTML = '';
@@ -364,18 +379,9 @@ function removeMovement(movementId) {
                             $(`li[data-id="${movementId}"]`).remove();
                         }, 2000);
 
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Sucesso',
-                            text: response.message,
-                        });
+                        showToastSuccess(response.message);
                     } else {
-                        console.log(response);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: response.message,
-                        });
+                        showToastError(response.message);
                     }
                 }
             });
