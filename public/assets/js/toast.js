@@ -8,6 +8,7 @@ function showErrorToast(message) {
 
 function processForm(form, itemControllerUrl, successRedirect) {
     event.preventDefault();
+    console.log(form);
     $.ajax({
         type: "POST",
         url: itemControllerUrl,

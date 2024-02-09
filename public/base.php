@@ -69,7 +69,7 @@
             </div>
             <div class="col-span-2">
               <label for="lastMovement" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ultima Movimentação</label>
-              <input type="text" name="lastMovement" id="lastMovement" class="bg-gray-50 empty text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="<?= date('d/m/Y') ?>" required="">
+              <input type="text" name="lastMovement" id="lastMovement" class="bg-gray-50 empty text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 datePicker" placeholder="<?= date('d/m/Y') ?>" required="">
             </div>
             <div class="col-span-2">
               <label for="customerID" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nome do Cliente</label>
@@ -94,12 +94,90 @@
   </div>
 
   <body>
+    <!-- MODAL TYPE MOVEMENT -->
+    <div id="modal-type" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+      <div class="relative p-4 w-full max-w-md max-h-full">
+        <div class="relative bg-dark rounded-lg shadow dark:bg-gray-700">
+          <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+              Tipo de Movimentação
+            </h3>
+            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="modal-type">
+              <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+              </svg>
+              <span class="sr-only">Close modal</span>
+            </button>
+          </div>
+          <!-- Modal body -->
+          <div class="p-4 md:p-5">
+            <p class="text-gray-500 dark:text-gray-400 mb-4">Selecione um tipo de movimentação:</p>
+            <ul class="space-y-4 mb-4">
+              <li>
+                <input type="radio" id="history-1" name="history" value="history-1" class="hidden peer modal-close" data-modal-target="modal-movement" data-modal-toggle="modal-movement" data-modal-hide="modal-type" onclick="changeModalMovement('location');">
+                <label for="history-1" class="inline-flex items-center justify-between w-full p-5 text-gray-900 bg-gray-900 border border-gray-700 rounded-lg cursor-pointer transform transition-transform hover:scale-105 dark:hover:text-gray-300 dark:border-gray-500 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-900 hover:bg-gray-400 dark:text-white dark:bg-gray-700 dark:hover:bg-gray-500">
+                  <div class="block">
+                    <div class="w-full text-lg font-semibold">Localização</div>
+                    <div class="w-full text-gray-500 dark:text-gray-100">Mudança de Localização</div>
+                  </div>
+                  <svg class="w-4 h-4 ms-3 rtl:rotate-180 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
+                  </svg>
+                </label>
+              </li>
+              <li>
+                <input type="radio" id="history-2" name="history" value="history-2" class="hidden peer list-history" data-modal-target="modal-movement" data-modal-toggle="modal-movement" data-modal-hide="modal-type" onclick="changeModalMovement('transfer');">
+                <label for="history-2" class="inline-flex items-center justify-between w-full p-5 text-gray-900 bg-gray-900 border border-gray-700 rounded-lg cursor-pointer dark:hover:text-gray-300 hover:scale-105 dark:border-gray-500 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-900 hover:bg-gray-400 dark:text-white dark:bg-gray-700 dark:hover:bg-gray-500 transition-transform">
+                  <div class="block">
+                    <div class="w-full text-lg font-semibold">Transferir Equipamento</div>
+                    <div class="w-full text-gray-500 dark:text-gray-400">Transferência de cliente para cliente</div>
+                  </div>
+                  <svg class="w-4 h-4 ms-3 rtl:rotate-180 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
+                  </svg>
+                </label>
+              </li>
+              <li>
+                <input type="radio" id="history-3" name="history" value="history-3" class="hidden peer" data-modal-target="modal-movement" data-modal-toggle="modal-movement" data-modal-hide="modal-type" onclick="changeModalMovement('maintenance');">
+                <label for="history-3" class="inline-flex items-center justify-between w-full p-5 text-gray-900 bg-gray-900 border border-gray-700 rounded-lg cursor-pointer dark:hover:text-gray-300 hover:scale-105 dark:border-gray-500 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-900 hover:bg-gray-400 dark:text-white dark:bg-gray-700 dark:hover:bg-gray-500 transition-transform">
+                  <div class="block">
+                    <div class="w-full text-lg font-semibold">Manutenção</div>
+                    <div class="w-full text-gray-500 dark:text-gray-400">Registrar manutenção externa</div>
+                  </div>
+                  <svg class="w-4 h-4 ms-3 rtl:rotate-180 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
+                  </svg>
+                </label>
+              </li>
+              <li>
+                <input type="radio" id="history-4" name="history" value="history-4" class="hidden peer" data-modal-target="modal-movement" data-modal-toggle="modal-movement" data-modal-hide="modal-type" onclick="changeModalMovement('lost');">
+                <label for="history-4" class="inline-flex items-center justify-between w-full p-5 text-gray-900 bg-gray-900 border border-gray-700 rounded-lg cursor-pointer dark:hover:text-gray-300 hover:scale-105 dark:border-gray-500 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-900 hover:bg-gray-400 dark:text-white dark:bg-gray-700 dark:hover:bg-gray-500 transition-transform">
+                  <div class="block">
+                    <div class="w-full text-lg font-semibold">Perda ou Extravio</div>
+                    <div class="w-full text-gray-500 dark:text-gray-400">Na eventualidade de perda ou extravio</div>
+                  </div>
+                  <svg class="w-4 h-4 ms-3 rtl:rotate-180 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9" />
+                  </svg>
+                </label>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- MODAL ADD MOVEMENT -->
     <div id="modal-movement" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
       <div class="relative p-4 w-full max-w-md max-h-full">
         <div class="relative bg-dark rounded-lg shadow dark:bg-gray-700">
           <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Nova Movimentação</h3>
+            <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm  inline-flex justify-start items-start dark:hover:bg-gray-600 dark:hover:text-white" data-modal-target="modal-type" data-modal-toggle="modal-type" data-modal-hide="modal-movement">
+              <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5H1m0 0 4 4M1 5l4-4" />
+              </svg>
+            </button>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white ms-4">Nova Movimentação</h3>
             <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="modal-movement">
               <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
@@ -109,14 +187,42 @@
           </div>
           <form id="form" class="p-4 md:p-5" action="../app/controllers/itemController.php" method="post" onsubmit="return processForm(this, '../app/controllers/movementController.php', 'index.php')">
             <input type="hidden" id="idItem" name="idItem" value="">
+            <input type="hidden" id="movementType" name="movementType" value="" class="emptyMovement">
             <div class="grid gap-4 mb-4 grid-cols-2">
-              <div class="col-span-2">
+              <div class="col-span-2" id="inputDate">
                 <label for="dateMovement" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Data da Movimentação</label>
-                <input type="text" name="dateMovement" id="dateMovement" class="bg-gray-50 empty text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="<?= date('d/m/Y') ?>" required="">
+                <input type="text" name="dateMovement" id="dateMovement" class="bg-gray-50 empty text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 emptyMovement datePicker" placeholder="<?= date('d/m/Y') ?>" required="">
               </div>
-              <div class="col-span-2">
+              <div class="col-span-2" id="inputLocation">
                 <label for="newLocation" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nova Localização</label>
-                <input type="text" name="newLocation" id="newLocation" class="bg-gray-50 empty text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Apenas se ocorreu mudança na localização">
+                <input type="text" name="newLocation" id="newLocation" class="bg-gray-50 empty text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 emptyMovement" placeholder="Apenas se ocorreu mudança na localização">
+              </div>
+              <div class="col-span-2" id="containerMaintenance">
+                <label for="equipamentSituation" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Situação do Equipamento</label>
+                <select name="equipamentSituation" id="equipamentSituation" class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500  dark:focus:border-primary-500 emptyMovement">
+                  <option value="going">Indo para Manutenção</option>
+                  <option value="back">Voltando da Manutenção</option>
+                </select>
+              </div>
+              <div class="col-span-2" id="fromCustomer" id="fromCustomer">
+                <label for="fromCustomerID" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">De:</label>
+                <select id="fromCustomerID" name="fromCustomerID" class="bg-gray-50 empty text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 emptyMovement">
+                  <option></option>
+                </select>
+              </div>
+              <div class="col-span-2" id="toCustomer" id="toCustomer">
+                <label for="toCustomerID" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Para:</label>
+                <select id="toCustomerID" name="toCustomerID" class="bg-gray-50 empty text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 emptyMovement">
+                  <option></option>
+                </select>
+              </div>
+
+              <div class="col-span-2" id="lostMisplacement">
+                <label for="lossOrMisplacement" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Equipamento Foi:</label>
+                <select id="lossOrMisplacement" name="lossOrMisplacement" class="bg-gray-50 empty text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 emptyMovement">
+                  <option value="lost">Perdido</option>
+                  <option value="misplacement">Extraviado</option>
+                </select>
               </div>
             </div>
             <button type="submit" class="text-white inline-flex ms-12 items-center bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
@@ -229,9 +335,9 @@
         <li>
           <a href="#">
             <i class='bx bx-folder'></i>
-            <span class="links_name">Agenda</span>
+            <span class="links_name">Relatórios</span>
           </a>
-          <span class="tooltip">Agenda</span>
+          <span class="tooltip">Relatórios</span>
         </li>
         <li>
           <a href="#">
