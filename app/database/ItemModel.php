@@ -226,10 +226,43 @@ class ItemModel
         }
     }
 
+    public function getCustomerNameById($equipamentId)
+    {
+        try {
+            $query = " SELECT
+                        e.customerID, c.CustomerName
+                      from 
+                        equipment AS e
+                      LEFT JOIN
+                        customer AS c
+                      ON e.customerID = c.id
+                      WHERE 
+                        e.status = 1 
+                      AND
+                        e.id = :equipamentId
+                      LIMIT 1";
+
+            $stmt = $this->connect->prepare($query);
+            $stmt->bindParam(':equipamentId', $equipamentId);
+            $stmt->execute();
+
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            $e->getMessage();
+            return false;
+        }
+    }
+
     public function getCustomerName()
     {
         try {
-            $query = "SELECT id, customerName FROM customer WHERE status = 1 ORDER BY id DESC";
+            $query = " SELECT 
+                        id, customerName 
+                       FROM 
+                        customer 
+                       WHERE 
+                        status = 1 
+                       ORDER BY id DESC";
 
             $stmt = $this->connect->prepare($query);
             $stmt->execute();
@@ -272,28 +305,41 @@ class ItemModel
     public function addTransferMovement($equipmentId, $fromCustomerID, $toCustomerID, $dateMovement, $typeMovement)
     {
         try {
-            $query = " INSERT INTO 
-                    movementhistory
-                    (equipmentId,
-                    date,
-                    fromCustomer,
-                    toCustomer,
-                    movementType)
-                   VALUES
-                    (:equipmentId,
-                    :dateMovement,
-                    :fromCustomerID,
-                    :toCustomerID,
-                    :movementType 
-                    )";
-            $stmt = $this->connect->prepare($query);
-            $stmt->bindParam(':equipmentId', $equipmentId);
-            $stmt->bindParam(':dateMovement', $dateMovement);
-            $stmt->bindParam(':fromCustomerID', $fromCustomerID);
-            $stmt->bindParam(':toCustomerID', $toCustomerID);
-            $stmt->bindParam(':movementType', $typeMovement);
-            return true;
+            $this->connect->beginTransaction();
+
+            $queryMovement = " INSERT INTO 
+                                movementhistory
+                                (equipmentId,
+                                date,
+                                fromCustomer,
+                                toCustomer,
+                                movementType)
+                               VALUES
+                                (:equipmentId,
+                                :dateMovement,
+                                :fromCustomerID,
+                                :toCustomerID,
+                                :movementType 
+                                )";
+            $stmtMovement = $this->connect->prepare($queryMovement);
+            $stmtMovement->bindParam(':equipmentId', $equipmentId);
+            $stmtMovement->bindParam(':dateMovement', $dateMovement, PDO::PARAM_STR);
+            error_log($dateMovement);   
+            $stmtMovement->bindParam(':fromCustomerID', $fromCustomerID);
+            $stmtMovement->bindParam(':toCustomerID', $toCustomerID);
+            $stmtMovement->bindParam(':movementType', $typeMovement);
+
+            $queryTransfer = "UPDATE equipment SET customerID = :toCustomerID WHERE id = :equipmentId";
+            $stmtTransfer = $this->connect->prepare($queryTransfer);
+            $stmtTransfer->bindParam(':toCustomerID', $toCustomerID);
+            $stmtTransfer->bindParam(':equipmentId', $equipmentId);
+
+            if ($stmtTransfer->execute() && $stmtMovement->execute()) {
+                $this->connect->commit();
+                return true;
+            }
         } catch (PDOException $e) {
+            $this->connect->rollBack();
             $e->getMessage();
             return false;
         }

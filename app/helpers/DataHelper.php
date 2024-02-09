@@ -8,4 +8,9 @@ class DataHelper
     {
         return date('d/m/Y', strtotime($date));
     }
+
+    public static function formatToSql($date)
+    {
+        return date('Y-m-d', strtotime($date));
+    }
 }

@@ -52,19 +52,24 @@ function newItem() {
     });
 }
 
-document.querySelector(".list-history").addEventListener('click', function () {
-    completeCustomerMovement();
-});
+const firstListHistory = document.querySelectorAll(".list-history")[0];
+if (firstListHistory) {
+    firstListHistory.addEventListener('click', function () {
+        const equipamentId = document.getElementById('idItem');
+        completeCustomerMovement(equipamentId.value);
+    });
+}
 
-function completeCustomerMovement() {
+function completeCustomerMovement(equipamentId) {
     const options = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
-        }
+        },
+        body: 'equipmentId=' + encodeURIComponent(equipamentId)
     };
 
-    fetch('../app/controllers/getCustomerController.php', options)
+    fetch('../app/controllers/getCustomerHistoryController.php', options)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Erro na requisição');
@@ -88,10 +93,14 @@ function populateCustomerMovement(customers) {
     selectFrom.empty();
     selectTo.empty();
 
-    customers.forEach(function (customer) {
-        var option1 = $("<option>").val(customer.id).text(customer.customerName).appendTo(selectFrom);
-        var option2 = $("<option>").val(customer.id).text(customer.customerName).appendTo(selectTo);
+    console.log(customers[0]);
+    console.log(customers[1]['CustomerName']);
+
+    customers[0].forEach(function (customer) {
+        var option2 = $("<option>").val(customer['id']).text(customer['customerName']).appendTo(selectTo);
     });
+
+    var option1 = $("<option>").val(customers[1]['customerID']).text(customers[1]['CustomerName']).appendTo(selectFrom);
 
 }
 
@@ -165,9 +174,6 @@ function modalHistory(itemId) {
                     ul.innerHTML = '';
 
                     response.data.forEach(function (movementData, index) {
-                        console.log(movementData);
-                        console.log(index);
-
                         var li = document.createElement('li');
                         li.setAttribute('class', 'py-3 sm:py-4');
                         li.setAttribute('data-id', movementData['id']);
@@ -179,48 +185,63 @@ function modalHistory(itemId) {
                         var innerDiv = document.createElement('div');
                         innerDiv.setAttribute('class', 'flex-1 min-w-0 ms-4');
                         var dateP = document.createElement('p');
-                        dateP.setAttribute('class', 'text-sm font-medium text-gray-900 truncate dark:text-white mt-2');
+                        dateP.setAttribute('class', 'text-sm font-medium text-gray-900 truncate dark:text-white mt-2 mb-2');
                         var locationP = document.createElement('p');
-                        locationP.setAttribute('class', 'text-sm font-medium text-gray-900 truncate dark:text-white');
-                        var typeP = document.createElement('p');
-                        typeP.setAttribute('class', 'text-sm font-medium text-gray-900 truncate dark:text-white');
+                        locationP.setAttribute('class', 'text-sm font-medium text-gray-900 truncate dark:text-white mb-2');
+                        var occurred = document.createElement('p');
+                        occurred.setAttribute('class', 'text-sm font-medium text-gray-900 truncate dark:text-white mb-2');
                         var locationF = document.createElement('p');
-                        locationF.setAttribute('class', 'text-sm font-medium text-gray-900 truncate dark:text-white');
+                        locationF.setAttribute('class', 'text-sm font-medium text-gray-900 truncate dark:text-white mb-2');
+                        var locationF = document.createElement('p');
+                        locationF.setAttribute('class', 'text-sm font-medium text-gray-900 truncate dark:text-white mb-2');
+                        var type = document.createElement('p');
+                        type.setAttribute('class', 'text-sm font-medium text-gray-900 truncate dark:text-white');
+
 
                         switch (movementData['movementType']) {
                             case 'location':
-                                dateP.textContent = 'Data: ' + movementData['date'];
-                                locationP.textContent = 'Localização: ' + movementData['newLocation'];
-                                typeP.textContent = 'Tipo da Movimentação: Troca de Localização ';
+                                dateP.textContent = '📅 Data: ' + formatDateToBrazil(movementData['date']);
+                                locationP.textContent = '🌎 Localização: ' + movementData['newLocation'];
+                                occurred.textContent = '⚠️ Ocorrido: Item Foi Para Um Novo Endereço';
+                                type.textContent = '📋 Tipo: Troca de Localização  ';
                                 innerDiv.appendChild(dateP);
                                 innerDiv.appendChild(locationP);
-                                innerDiv.appendChild(typeP);
+                                innerDiv.appendChild(occurred);
+                                innerDiv.appendChild(type);
+                                break;
 
 
                             case 'transfer':
-                                dateP.textContent = 'Data: ' + movementData['date'];
-                                locationP.textContent = 'De: ' + movementData['fromCustomerName'];
-                                locationF.textContent = 'Para: ' + movementData['toCustomerName'];
-                                typeP.textContent = 'Tipo: Transferência de cliente para Cliente';
+                                dateP.textContent = '📅 Data: ' + formatDateToBrazil(movementData['date']);
+                                locationP.textContent = '⬅️ De: ' + movementData['fromCustomerName'];
+                                locationF.textContent = '➡️ Para: ' + movementData['toCustomerName'];
+                                occurred.textContent = '⚠️ Ocorrido: Transferência de cliente para Cliente';
+                                type.textContent = '📋 Tipo: Tranferencia';
                                 innerDiv.appendChild(dateP);
                                 innerDiv.appendChild(locationP);
                                 innerDiv.appendChild(locationF);
-                                innerDiv.appendChild(typeP);
+                                innerDiv.appendChild(occurred);
+                                innerDiv.appendChild(type);
+                                break;
 
 
                             case 'maintenance':
-                                dateP.textContent = 'Data: ' + movementData['date'];
-                                locationP.textContent = 'De: ' + movementData['fromCustomerName'];
-                                (movementData['equipamentSituation'] == 'going') ? typeP.textContent = 'Tipo: Item Foi Para Manutenção' :  typeP.textContent = 'Tipo: Item Voltou da Manutenção';
+                                dateP.textContent = '📅 Data: ' + formatDateToBrazil(movementData['date']);
+                                (movementData['equipamentSituation'] == 'going') ? occurred.textContent = '⚠️ Ocorrido: Item Foi Para Manutenção' : occurred.textContent = 'Tipo: ⚠️ Item Voltou da Manutenção';
+                                type.textContent = '📋 Tipo: Manutenção';
                                 innerDiv.appendChild(dateP);
-                                innerDiv.appendChild(locationP);
-                                innerDiv.appendChild(locationF);
-                                innerDiv.appendChild(typeP);
+                                innerDiv.appendChild(occurred);
+                                innerDiv.appendChild(type);
                                 break;
 
                             case 'lost':
+                                dateP.textContent = '📅 Data: ' + formatDateToBrazil(movementData['date']);
+                                occurred.textContent = (movementData['equipamentSituation'] === 'lost') ? '❓ Ocorrido: Equipamento Foi Perdido' : '🚚 Ocorrido: Equipamento Foi Extraviado';
+                                type.textContent = '📋 Tipo: Perda ou Extravio';
+                                innerDiv.appendChild(dateP);
+                                innerDiv.appendChild(occurred);
+                                innerDiv.appendChild(type);
                                 break;
-
                         }
 
 
@@ -341,7 +362,7 @@ function removeMovement(movementId) {
 
                         setTimeout(function () {
                             $(`li[data-id="${movementId}"]`).remove();
-                        }, 3000);
+                        }, 2000);
 
                         Swal.fire({
                             icon: 'success',
@@ -360,4 +381,10 @@ function removeMovement(movementId) {
             });
         }
     });
+}
+
+function formatDateToBrazil(date) {
+    const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+    var date = new Date(date);
+    return date.toLocaleDateString('pt-BR', options);
 }

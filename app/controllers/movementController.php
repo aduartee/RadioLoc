@@ -5,20 +5,21 @@ namespace app\controllers;
 require_once '../../vendor/autoload.php';
 
 use app\database\ItemModel;
+use app\Helpers\DataHelper;
 use PDOException;
 
 try {
     if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['movementType'])) {
 
-        $equipmentId = $_POST['idItem'];
         $itemModel = new ItemModel;
+        $dataHelper = new DataHelper;
+        $equipmentId = $_POST['idItem'];
         $typeMovement = $_POST['movementType'];
-        $dateMovement = $_POST['dateMovement'];
+        $dateMovement = $dataHelper::formatToSql($_POST['dateMovement']);        
 
         switch ($typeMovement) {
             case 'location':
                 $newLocation = $_POST['newLocation'];
-                error_log('Entrou na location');
 
                 if ($itemModel->addNewMovement($equipmentId, $newLocation, $dateMovement, $typeMovement)) {
                     $response['status'] = 'success';
@@ -33,8 +34,6 @@ try {
             case 'transfer':
                 $fromCustomerID = $_POST['fromCustomerID'];
                 $toCustomerID = $_POST['toCustomerID'];
-                error_log('Entrou na transfer');
-
 
                 if ($itemModel->addTransferMovement($equipmentId, $fromCustomerID, $toCustomerID, $dateMovement, $typeMovement)) {
                     $response['status'] = 'success';
@@ -48,8 +47,6 @@ try {
 
             case 'maintenance':
                 $equipamentSituation = $_POST['equipamentSituation'];
-                error_log('Entrou na maintenance');
-
 
                 if ($itemModel->addMaintenanceMovement($equipmentId, $equipamentSituation, $dateMovement, $typeMovement)) {
                     $response['status'] = 'success';
