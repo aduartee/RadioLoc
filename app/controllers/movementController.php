@@ -13,11 +13,10 @@ try {
 
         $itemModel = new ItemModel;
         $dataHelper = new DataHelper;
-        $equipmentId = $_POST['idItem'];
         $typeMovement = $_POST['movementType'];
-        $dateMovement = $dataHelper::formatToSql($_POST['dateMovement']);       
-        error_log($dateMovement); 
-        error_log($_POST['dateMovement']);
+        $dateMovement = $dataHelper::formatToSql($_POST['dateMovement']);
+        $equipmentId = $_POST['idItem'];
+
 
         switch ($typeMovement) {
             case 'location':
