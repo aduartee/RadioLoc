@@ -11,6 +11,10 @@ class DataHelper
 
     public static function formatToSql($date)
     {
-        return date('Y-m-d', strtotime($date));
+        $dateParts = explode('/', $date);
+
+        $formattedDate = $dateParts[2] . '-' . $dateParts[1] . '-' . $dateParts[0];
+
+        return $formattedDate;
     }
 }

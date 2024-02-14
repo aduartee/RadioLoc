@@ -390,7 +390,10 @@ function removeMovement(movementId) {
 }
 
 function formatDateToBrazil(date) {
-    const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
-    var date = new Date(date);
-    return date.toLocaleDateString('pt-BR', options);
+    if(date != undefined){
+        const [year, month, day] = date.split('-');
+        return `${day}/${month}/${year}`;    
+    } else{
+        return 'Data Inválida 🤔';
+    }
 }

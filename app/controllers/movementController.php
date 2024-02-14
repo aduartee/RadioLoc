@@ -15,7 +15,9 @@ try {
         $dataHelper = new DataHelper;
         $equipmentId = $_POST['idItem'];
         $typeMovement = $_POST['movementType'];
-        $dateMovement = $dataHelper::formatToSql($_POST['dateMovement']);        
+        $dateMovement = $dataHelper::formatToSql($_POST['dateMovement']);       
+        error_log($dateMovement); 
+        error_log($_POST['dateMovement']);
 
         switch ($typeMovement) {
             case 'location':
