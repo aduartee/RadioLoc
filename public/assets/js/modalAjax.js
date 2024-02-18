@@ -1,3 +1,13 @@
+function validateEmptyInputs() {
+    document.querySelectorAll('.empty').forEach(element => {
+        if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA' || element.tagName === 'SELECT') {
+            element.value = '';
+        } else {
+            element.classList.remove('empty');
+        }
+    });
+}
+
 function showToastSuccess(message) {
     Swal.fire({
         icon: 'success',
@@ -9,7 +19,7 @@ function showToastSuccess(message) {
 function showToastError(message) {
     Swal.fire({
         icon: 'error',
-        title: 'Error',
+        title: 'Erro',
         text: message,
     });
 }
@@ -25,11 +35,11 @@ function editItem(id) {
         .then(response => {
             if (!response.ok) {
                 showToastError('Erro ao realizar a requisição, tente novamente 😀');
-                throw new Error('Erro na requisição');
             }
             return response.json();
         })
         .then(response => {
+            document.getElementById('buttonSave').disabled = false;
             document.getElementById('formId').value = id;
             document.getElementById('action').value = 'edit';
             document.getElementById('titleModal').textContent = 'Editar Equipamento';
@@ -49,25 +59,38 @@ function editItem(id) {
 
 
 function newItem() {
-    $('.empty').each(function () {
-        if ($(this).is('input, textarea, select')) {
-            $(this).val('');
-        } else {
-            $(this).empty();
-        }
-    });
+    validateEmptyInputs();
+    document.getElementById('titleModal').textContent = 'Criar Equipamento';
+    document.getElementById('action').value = 'create';
+    let buttonSaveForm = document.getElementById('buttonSave');
 
-    $("#titleModal").html('Criar Equipamento');
-    $('#action').val('create');
 
-    $.ajax({
-        type: 'POST',
-        url: '../app/controllers/getCustomerController.php',
-        success: function (response) {
-            populateCustomerDropdown(response, null);
-        }, error: function () {
-        }
-    });
+
+    fetch('../app/controllers/getCustomerController.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+    })
+        .then(response => {
+            if (!response.ok) {
+                showToastError('Erro ao realizar a requisição');
+            }
+            return response.json();
+        })
+        .then(response => {
+            console.log(response.length);
+            if (response.length == 0) {
+                showToastError('Para adicionar um item, é necessário que haja pelo menos um cliente cadastrado no sistema. Adicione um cliente e tente novamente 🤓');
+                buttonSaveForm.disabled = true;
+            } else {
+                buttonSaveForm.disabled = false;
+                populateCustomerDropdown(response, null);
+            }
+        })
+        .catch(error => {
+            showToastError(error);
+        });
 }
 
 const firstListHistory = document.querySelectorAll(".list-history")[0];
@@ -145,18 +168,10 @@ function editCustomer(id) {
 }
 
 function newCustomer() {
-    $('.empty').each(function () {
-        if ($(this).is('input, textarea, select')) {
-            $(this).val('');
-        } else {
-            $(this).empty();
-        }
-    });
-
-    $('#actionCustomer').val('create');
-    $("#titleCustomer").html('Criar Cliente');
+    validateEmptyInputs();
+    document.getElementById('actionCustomer').value = 'create';
+    document.getElementById('titleCustomer').textContent = 'Criar Cliente';
 }
-
 
 function populateCustomerDropdown(customers, selectedCustomerID) {
     var select = $("#customerID");
@@ -390,10 +405,10 @@ function removeMovement(movementId) {
 }
 
 function formatDateToBrazil(date) {
-    if(date != undefined){
+    if (date != undefined) {
         const [year, month, day] = date.split('-');
-        return `${day}/${month}/${year}`;    
-    } else{
+        return `${day}/${month}/${year}`;
+    } else {
         return 'Data Inválida 🤔';
     }
 }
