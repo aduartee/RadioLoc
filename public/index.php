@@ -92,6 +92,7 @@ $items = $itemsModel->getAllItems();
             <tbody>
                 <?php foreach ($items as $item) :
                     $itemId = $item->getId();
+                    $customerId = $item->getCustomerID();
                 ?>
                     <tr class="bg-dark border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 font-medium text-gray-900 whitespace-nowrap dark:text-white text-center" data-id="<?= $itemId ?>">
                         <td class="w-4 p-4">
@@ -110,7 +111,7 @@ $items = $itemsModel->getAllItems();
                     <td class="px-6 py-4">
                         <?= $item->getLocation() ?>
                     </td>
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4" id="totalEquipment" onclick="window.location.href='filterItem.php?id=<?= $customerId ?>'">
                         <?= $item->getCustomerName() ?>
                     </td>
                     <td class="px-6 py-4">
@@ -136,4 +137,5 @@ $items = $itemsModel->getAllItems();
 </section>
 
 <script src="assets/js/modalAjax.js"></script>
+<script src="assets/js/tooltips.js"></script>
 <script src="assets/js/getIdBtn.js"></script>

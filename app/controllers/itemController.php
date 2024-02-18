@@ -12,6 +12,15 @@ $action = $_POST['action'];
 
 try {
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        
+        if ($_POST['customerID'] == '' || empty($_POST['customerID'])) {
+            $repose['status'] = 'error';
+            $response['message'] = 'É necessário cadastrar um cliente para adicionar um equipamento';
+            header('Content-Type: application/json');
+            echo json_encode($response);
+            exit();
+        }
+
         $itemName = $_POST['itemName'];
         $location = $_POST['location'];
         $customerID = $_POST['customerID'];
@@ -36,7 +45,7 @@ try {
             }
         } else if (isset($action) && $action == 'edit') {
             $id = $_POST['id'];
-            if ($itemModel->editItem($itemName, $location, $customerID,  $model, $serialNumber, $status, $lastMovement, $additionalNotes, $id)) {
+            if ($itemModel->editItem($itemName, $location, $customerID, $model, $serialNumber, $status, $lastMovement, $additionalNotes, $id)) {
                 $response['status'] = 'success';
                 $response['message'] = 'Alterações salvas com sucesso!';
             }
