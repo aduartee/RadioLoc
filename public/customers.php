@@ -137,11 +137,6 @@ $customers = $customerModel->getAllCustomers();
     <div class="d-flex justify-content-between">
         <h2 class="text-3xl mt-3 text-start font-medium text-gray-900 dark:text-white">Visualizar Cliente</h2>
         <button data-modal-target="modal-customer" data-modal-toggle="modal-customer" onclick="newCustomer();"
-            class="text-white h-20 ml-auto w-30 mr-10 bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-base px-4 py-2 me-2 mb-2">
-            <i class="bx bx-plus"></i>
-            Visualizar Clientes com Equipamento Cadastrado
-        </button>
-        <button data-modal-target="modal-customer" data-modal-toggle="modal-customer" onclick="newCustomer();"
             class="text-white h-20 w-30 mr-20 bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-base px-4 py-2 me-2 mb-2">
             <i class="bx bx-plus"></i>
             Adicionar Cliente
@@ -158,8 +153,8 @@ $customers = $customerModel->getAllCustomers();
                                 class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                         </div>
                     </th>
-                    <th scope="col" class="px-6 py-3 text-lg">
-                        Nome do Cliente
+                    <th scope="col" class="px-6 py-3 text-lg w-300">
+                        Nome
                     </th>
                     <th scope="col" class="px-6 py-3 text-lg">
                         Numero Total de Equipamentos
@@ -184,6 +179,7 @@ $customers = $customerModel->getAllCustomers();
             <tbody>
                 <?php foreach ($customers as $customer):
                     $customerId = $customer->getId();
+                    $totalEquipaments = $customer->getTotalEquipment();
                     ?>
                     <tr class="bg-dark border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 font-medium text-gray-900 whitespace-nowrap dark:text-white text-center"
                         data-id="<?= $customerId ?>">
@@ -201,9 +197,8 @@ $customers = $customerModel->getAllCustomers();
                         <th scope="row" class="px-6 py-4">
                             <?= $customer->getCustomerName(); ?>
                         </th>
-                        <td class="px-6 py-4" id="totalEquipment"
-                            onclick="window.location.href='filterItem.php?id=<?= $customerId ?>'">
-                            <?= $customer->getTotalEquipment(); ?>
+                        <td class="px-6 py-4" <?= ($totalEquipaments != 'Nenhum Equipamento Cadastrado') ? 'id="totalEquipment" onclick="window.location.href=\'filterItem.php?id=' . $customerId . "'\"" : ''; ?>>
+                            <?= $totalEquipaments ?>
                         </td>
 
                         <td class="px-6 py-4">

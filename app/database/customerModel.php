@@ -12,25 +12,35 @@ class CustomerModel
     {
         try {
             $connect = connect();
-            $query = " SELECT 
+            $query = " SELECT
                         c.id AS customer_id,
                         c.customerName,
                         c.status,
                         c.equipamentNumber,
                         c.address,
                         c.phone,
-                        MAX(e.lastMovement) AS lastMovement,
-                        COUNT(e.customerID) AS total_items
-                       FROM 
+                        CASE
+                            WHEN MAX(e.lastMovement) IS NULL THEN 'Não Possui'
+                            ELSE MAX(e.lastMovement)
+                        END AS lastMovement,
+                        CASE
+                            WHEN COUNT(e.customerID) = 0 THEN 'Nenhum Equipamento Cadastrado'
+                            ELSE COUNT(e.customerID)
+                        END AS totalItems
+                       FROM
                         customer AS c
-                       LEFT JOIN 
-                        equipment AS e ON c.id = e.customerID
-                       WHERE 
-                        c.status = 1 AND
-                        e.status = 1
-                       GROUP BY 
-                        c.id, c.customerName, c.equipamentNumber, c.address, c.phone
-                       ORDER BY c.id DESC";
+                        LEFT JOIN equipment AS e ON c.id = e.customerID
+                        AND e.status = 1
+                       WHERE
+                        c.status = 1
+                       GROUP BY
+                        c.id,
+                        c.customerName,
+                        c.equipamentNumber,
+                        c.address,
+                        c.phone
+                       ORDER BY
+                        c.id DESC";
             $stmt = $connect->query($query);
 
             $customerData = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -40,7 +50,7 @@ class CustomerModel
                 $customer = new Customer;
                 $customer->setId($data['customer_id']);
                 $customer->setCustomerName($data['customerName']);
-                $customer->setTotalEquipment($data['total_items']);
+                $customer->setTotalEquipment($data['totalItems']);
                 $customer->setAddress($data['address']);
                 $customer->setPhone($data['phone']);
                 $customer->setStatus($data['status']);
