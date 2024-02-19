@@ -13,7 +13,7 @@ $itemData = $itemModel->getItemByCustomer($id);
 ?>
 
 <head>
-    <title>RadioLoc | Visualizar Clientes</title>
+    <title>RadioLoc | Visualizando Clientes</title>
     <!-- Tooltips -->
     <script src="assets/js/toast.js"></script>
     <script src="assets/js/remove.js"></script>
@@ -55,7 +55,7 @@ $itemData = $itemModel->getItemByCustomer($id);
     </div>
 
     <div class="d-flex justify-content-between mb-10">
-        <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-4xl dark:text-white">Visualizar Cliente: <span class="underline underline-offset-3 decoration-8 decoration-blue-400 dark:decoration-blue-600"><?= $customerName['customerName'] ?></span></h1>
+        <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-4xl dark:text-white">Visualizando Cliente: <span class="underline underline-offset-3 decoration-8 decoration-blue-400 dark:decoration-blue-600"><?= $customerName['customerName'] ?></span></h1>
     </div>
 
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg me-20 ">
