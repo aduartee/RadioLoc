@@ -12,8 +12,12 @@ RUN apt-get update && apt upgrade \
 WORKDIR /var/www/html/radioloc
 # Copy the project to WORKDIR /var/www/html/radioloc/
 COPY . .
+# Create a var to port
+ARG $PORT_BUILD=8081
+# DEFINE PORT
+ENV PORT=$PORT_BUILD
 # Expose the project on port 8081 of the server.
-EXPOSE 8081
+EXPOSE $PORT_BUILD
 # Run the comando for start apache server
 ENTRYPOINT ["apache2-foreground"]
 
