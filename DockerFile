@@ -1,0 +1,19 @@
+# Using php with Apache
+FROM php:7.1-apache
+# Update packages and install Apache extensions and PDO.
+RUN apt update && apt install -y \
+    libapache2-mod-php \
+    && docker-php-ext-install pdo pdo_mysql
+
+RUN apt-get update && apt upgrade \
+    mysql-server \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /var/www/html/radioloc
+# Copy the project to WORKDIR /var/www/html/radioloc/
+COPY . .
+# Expose the project on port 8081 of the server.
+EXPOSE 8081
+# Run the comando for start apache server
+ENTRYPOINT ["apache2-foreground"]
+
