@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: radioloc
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - radioloc_network
+
+  php-apache:
+    build: .
+    ports:
+      - "8081:80"
+    depends_on:
+      - mysql
+    volumes:
+      - ./public:/var/www/html/radioloc/public
+    networks:
+      - radioloc_network
+
+networks:
+  radioloc_network:
+    external: true
+    name: radioloc_default
+
+volumes:
+  mysql_data:
