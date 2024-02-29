@@ -1,6 +1,7 @@
 version: '3.8'
 
 services:
+  # Using image from Docker HUB
   mysql:
     image: mysql:5.7
     restart: always
@@ -19,7 +20,7 @@ services:
     depends_on:
       - mysql
     volumes:
-      - ./public:/var/www/html/radioloc/public
+      - .:/var/www/html/radioloc
     networks:
       - radioloc_network
 

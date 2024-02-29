@@ -5,6 +5,12 @@ FROM php:7.1-apache
 RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo pdo_mysql
 
+# Install Composer
+RUN apt-get update && apt-get install -y wget unzip
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+RUN php -r "unlink('composer-setup.php');"
+
 # Update packages and install Mysql on image
 RUN apt-get update && apt-get install -y \
     default-mysql-server \
