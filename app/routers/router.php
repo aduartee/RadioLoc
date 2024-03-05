@@ -14,8 +14,7 @@ class Router
     {
         $controllerNamespace = self::CONTROLLER_NAMESPACE . '\\' . $controller;
         try {
-            error_log('Teste');
-            if (!class_exists($controller)) {
+            if (!class_exists($controllerNamespace)) {
                 throw new Exception("The Controller $controller no exists...");
             }
 
@@ -25,7 +24,6 @@ class Router
                 throw new Exception("The Method $method no exists...");
             }
 
-            var_dump($controllerInstace);
             $controllerInstace->$method();
         } catch (Exception $e) {
             error_log($e->getMessage());
@@ -53,6 +51,10 @@ class Router
             $request = Request::get();
             $uri = Uri::get('path');
 
+            error_log(var_dump($routes));
+            error_log($request);
+            error_log($uri);
+
             if (!isset($routes[$request])) {
                 throw new Exception('The route no exists');
             }
@@ -63,10 +65,10 @@ class Router
 
             $router = $routes[$request][$uri];
 
-            if(!is_callable($router)){
+            if (!is_callable($router)) {
                 throw new Exception('The function is not callable');
             }
-            
+
             $router();
 
         } catch (Exception $e) {

@@ -1,3 +1,3 @@
-<?php $this->layout('base.php') ?>
+<?php $this->layout('base') ?>
 
-<h1>Teste</h1>
+<h1 class="text-fuchsia-600">Customer</h1>
