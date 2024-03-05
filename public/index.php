@@ -3,7 +3,9 @@ require_once('../vendor/autoload.php');
 require_once(__DIR__ . '/base.php');
 
 use app\database\ItemModel;
+use app\routes\Router;
 
+Router::routes();
 $itemsModel = new ItemModel();
 $items = $itemsModel->getAllItems();
 ?>

@@ -9,7 +9,8 @@
             "app/database/ItemModel.php",
             "app/database/connect.php",
             "app/database/customerModel.php",
-            "app/helpers/DataHelper.php"
+            "app/helpers/DataHelper.php",
+            "app/routers/router.php"
         ]
     },    
     "authors": [
