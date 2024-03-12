@@ -25,13 +25,15 @@ function showToastError(message) {
 }
 
 function editItem(id) {
-    fetch('../app/controllers/completeFormController.php', {
+    const options = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: 'id=' + encodeURIComponent(id),
-    })
+        body: 'id=' + encodeURIComponent(id) + '&action=customerMovement',
+    };
+
+    fetch('./', options)
         .then(response => {
             if (!response.ok) {
                 showToastError('Erro ao realizar a requisição, tente novamente 😀');
@@ -107,10 +109,10 @@ function completeCustomerMovement(equipamentId) {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: 'equipmentId=' + encodeURIComponent(equipamentId)
+        body: 'equipmentId=' + encodeURIComponent(equipamentId) + '&action=customerMovement'
     };
 
-    fetch('../app/controllers/getCustomerHistoryController.php', options)
+    fetch('./', options)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Erro na requisição');

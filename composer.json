@@ -9,7 +9,10 @@
             "app/database/ItemModel.php",
             "app/database/connect.php",
             "app/database/customerModel.php",
-            "app/helpers/DataHelper.php"
+            "app/helpers/DataHelper.php",
+            "app/helpers/Request.php",
+            "app/helpers/Uri.php",
+            "app/routers/router.php"
         ]
     },    
     "authors": [
@@ -18,5 +21,7 @@
             "email": "arthurduartealves99@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "league/plates": "^3.5"
+    }
 }
