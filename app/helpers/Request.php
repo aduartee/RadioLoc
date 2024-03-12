@@ -6,6 +6,6 @@ class Request
 {
     public static function get()
     {
-        return strtolower($_REQUEST['REQUEST_METHOD']);
+        return strtolower($_SERVER['REQUEST_METHOD']);
     }
 }

@@ -35,11 +35,11 @@ class Router
         return [
             "get" => [
                 "/" => fn() => self::load("HomeController", "index"),
-                "customer" => fn() => self::load("CustomerController", "customers"),
-                "equipments" => fn() => "EquipmentsController",
+                "/customer" => fn() => self::load("CustomerController", "customers"),
+                "/equipments" => fn() => "EquipmentsController",
             ],
             "post" => [
-
+                "/" => fn() => self::load("equipmentsController", "equipamentOptions"),
             ],
         ];
     }
@@ -51,9 +51,7 @@ class Router
             $request = Request::get();
             $uri = Uri::get('path');
 
-            error_log(var_dump($routes));
-            error_log($request);
-            error_log($uri);
+            var_dump($uri);
 
             if (!isset($routes[$request])) {
                 throw new Exception('The route no exists');

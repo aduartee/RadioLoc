@@ -484,7 +484,6 @@
             </ul>
         </div>
         <section class="home-section">
-            <?= $this->section('content') ?>
             <script src="assets/js/base.js"></script>
             <!-- Bootstrap -->
             <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
@@ -508,6 +507,7 @@
             <script src="assets/js/getIdBtn.js"></script>
             <!-- TOOLTIPS -->
             <script src="assets/js/tooltips.js"></script>
+            <?= $this->section('content') ?>
     </body>
 
 </html>
